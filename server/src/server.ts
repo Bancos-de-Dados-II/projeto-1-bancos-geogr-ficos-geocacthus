@@ -17,5 +17,5 @@ server.listen(my_port, () => {
 })
 
 sequelize.sync().then(() => {
-    console.log('Database connected successfully.');
+    console.log("Database connected successfully");
 })
