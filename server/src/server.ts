@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+import sequelize from './config/sequelize.mjs';
 
 dotenv.config();
 
@@ -12,5 +13,9 @@ server.use('/', (req: Request, res: Response) => {
 });
 
 server.listen(my_port, () => {
-    console.log(`Server is running in http://localhost:${my_port}`);
+    console.log(`Server is running in http://localhost:${my_port}\n`);
+})
+
+sequelize.sync().then(() => {
+    console.log('Database connected successfully.');
 })
