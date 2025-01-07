@@ -1,0 +1,12 @@
+const { resolve } = require('path');
+const { existsSync, mkdirSync } = require('fs');
+
+const migrationPath = resolve('migrations');
+
+if (!existsSync(migrationPath)) mkdirSync(migrationPath);
+
+module.exports = {
+    config: resolve('src', 'config', 'database.ts'),
+    'models-path': resolve('src', 'models'),
+    'migrations-path': migrationPath,
+}
