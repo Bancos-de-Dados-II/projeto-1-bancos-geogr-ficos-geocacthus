@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/server.ts",
-    "migrate": "sequelize-cli db:migrate",
-    "migrate:undo": "sequelize-cli db:migrate:undo"
+    "migrate": "NODE_OPTIONS='-r ts-node/register' sequelize-cli db:migrate",
+    "migrate:undo": "NODE_OPTIONS='-r ts-node/register' sequelize-cli db:migrate:undo"
   },
   "keywords": [],
   "author": "",
