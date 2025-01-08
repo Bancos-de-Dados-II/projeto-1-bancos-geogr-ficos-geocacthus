@@ -1,36 +1,61 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { CreationOptional, DataTypes, Model, Sequelize } from "sequelize";
+import db from "../config/sequelize";
+import TouristPlace from "./touristLocation";
+import Review from "./evaluatesTouristLocation";
 
-const user = (sequelize: Sequelize) => {
-    const User = sequelize.define('User', {
-        id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
-            primaryKey: true,
-        },
-        name: {
-            type: DataTypes.STRING(100),
-            allowNull: false, 
-            validate: {
-                notEmpty: true,
-            },
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true,
-            },
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-    }, {
-        tableName: 'users',
-    });
 
-    return User;
+class User extends Model {
+    declare id: CreationOptional<string>;
+    declare name: string;
+    declare email: string;
+    declare password: string;
 }
 
-export default user;
+User.init({
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+    },
+    name: {
+        type: DataTypes.STRING(100),
+        allowNull: false, 
+        validate: {
+            notEmpty: true,
+        },
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: true,
+        },
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+}, {
+    sequelize: db,
+    tableName: 'users',
+});
+
+User.hasMany(TouristPlace, {
+    foreignKey: 'userID',
+    as: 'createdLocations',
+});
+
+User.hasMany(Review, {
+    foreignKey: 'userID',
+    as: 'evaluationsUser',
+});
+
+User.belongsToMany(TouristPlace, {
+    through: Review,
+    foreignKey: 'userID',
+    otherKey: 'touristLocationID',
+    as: 'evaluatedLocations'
+});
+
+export default User;
