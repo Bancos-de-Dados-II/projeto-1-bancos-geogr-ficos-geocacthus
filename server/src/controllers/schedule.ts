@@ -7,7 +7,7 @@ interface ISchedulesDTO {
     lastHours: string;
 }
 
-class Review {
+class Schedules {
     private schedule: ModelStatic<SchedulesModel>;
 
     constructor(scheduleModel: ModelStatic<SchedulesModel>) {
@@ -20,30 +20,32 @@ class Review {
         if (!day || !firstHours || !lastHours) return { status: 400, message: "Missing required fields" };
 
         try {
-            const newHour = await this.schedule.create({ 
+            const newSchedule = await this.schedule.create({ 
                 day, 
                 firstHours, 
                 lastHours,
                 touristId,
             });
 
-            return { status: 201, message: "Hours created successfully", data: newHour };
+            return { status: 201, message: "Schedule created successfully", data: newSchedule };
         } catch (error) {
             console.log(error);
             return { status: 500, message: "Internal Server Error", error: (error as Error).message };
         }
     }
 
-    async getHours(touristId: string) {
+    async getReview(touristId: string) {
         try {
-            const hours = await this.schedule.findAll({
+            const schedules = await this.schedule.findAll({
                 where: { touristId },
             });
 
-            return { status: 200, message: "Hours retrieved successfully", data: hours };
+            return { status: 200, message: "Schedules retrieved successfully", data: schedules };
         } catch (error) {
             console.log(error);
             return { status: 500, message: "Internal Server Error", error: (error as Error).message };
         }
     }
 }
+
+export default Schedules;

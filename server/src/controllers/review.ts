@@ -19,14 +19,14 @@ class Review {
         if (!rating || !date) return { status: 400, message: "Missing required fields" };
 
         try {
-            const newEvaluate = await this.review.create({ 
+            const newReview = await this.review.create({ 
                 rating, 
                 date,
                 userId,
                 touristLocationId,
             });
 
-            return { status: 201, message: "Evaluate created successfully", data: newEvaluate };
+            return { status: 201, message: "Review created successfully", data: newReview };
         } catch (error) {
             console.log(error);
             return { status: 500, message: "Internal Server Error", error: (error as Error).message };
@@ -35,11 +35,11 @@ class Review {
 
     async getEvaluates(touristLocationId: string) {
         try {
-            const evaluates = await this.review.findAll({
+            const reviews = await this.review.findAll({
                 where: { touristLocationId },
             });
 
-            return { status: 200, message: "Evaluates retrieved successfully", data: evaluates };
+            return { status: 200, message: "Reviews retrieved successfully", data: reviews };
         } catch (error) {
             console.log(error);
             return { status: 500, message: "Internal Server Error", error: (error as Error).message };
@@ -56,11 +56,11 @@ class Review {
                 },
             });
 
-            if (!review) return { status: 404, message: "No evaluates found for this user" };
+            if (!review) return { status: 404, message: "No reviews found for this user" };
 
             await review.destroy();
 
-            return { status: 200, message: "Evaluates deleted successfully" };
+            return { status: 200, message: "Reviews deleted successfully" };
         } catch (error) {
             console.log(error);
             return { status: 500, message: "Internal Server Error", error: (error as Error).message };

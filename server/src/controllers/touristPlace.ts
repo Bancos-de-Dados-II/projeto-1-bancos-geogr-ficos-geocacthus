@@ -1,7 +1,7 @@
 import { ModelStatic } from "sequelize";
 import { TouristPlace as TouristPlaceModel } from "../models/touristPlace";
 
-interface ITouristPlace {
+interface ITouristPlaceDTO {
     name: string;
     description: string;
     category: string;
@@ -28,13 +28,13 @@ class TouristPlace {
         this.tourist = touristLocationModel;
     }
 
-    async createTouristLocation(touristPlaceDTO: ITouristPlace, userId: string) {
+    async createTouristPlace(touristPlaceDTO: ITouristPlaceDTO, userId: string) {
         const { name, description, category, image, phone, latitude, longitude } = touristPlaceDTO;
 
         if (!name || !description || !category || !image || !phone || !latitude || !longitude) return { status: 400, message: "Missing required fields" };
 
         try {
-            const newTouristLocation = await this.tourist.create({ 
+            const newTourist = await this.tourist.create({ 
                 name, 
                 description, 
                 category, 
@@ -45,63 +45,63 @@ class TouristPlace {
                 userId,
             });
 
-            return { status: 201, message: "Tourist location created successfully", data: newTouristLocation };
+            return { status: 201, message: "Tourist place created successfully", data: newTourist };
         } catch (error) {
             console.log(error);
             return { status: 500, message: "Internal Server Error", error: (error as Error).message };
         }
     }
 
-    async getTouristLocation() {
+    async getTouristPlace() {
         try {
-            const touristLocations = await this.tourist.findAll();
+            const tourists = await this.tourist.findAll();
 
-            return { status: 200, message: "Tourist locations retrieved successfully", data: touristLocations };
+            return { status: 200, message: "Tourist places retrieved successfully", data: tourists };
         } catch (error) {
             console.log(error);
             return { status: 500, message: "Internal Server Error", error: (error as Error).message };
         }
     }
 
-    async getTouristLocationById(touristPlaceId: string) {
+    async getTouristPlaceById(touristPlaceId: string) {
         try {
-            const touristLocation = await this.tourist.findOne({
+            const tourist = await this.tourist.findOne({
                 where: { id: touristPlaceId },
             });
 
-            if (!touristLocation) return { status: 404, message: "Tourist location not found", data: null };
+            if (!tourist) return { status: 404, message: "Tourist place not found", data: null };
 
-            return { status: 200, message: "Tourist location retrieved successfully", data: touristLocation };
+            return { status: 200, message: "Tourist place retrieved successfully", data: tourist };
         } catch (error) {
             console.log(error);
             return { status: 500, message: "Internal Server Error", error: (error as Error).message };
         }
     }
 
-    async updateTouristLocation(touristPlaceAuth: ITouristPlaceAuth, updates: ITouristPlace) {
+    async updateTouristPlace(touristPlaceAuth: ITouristPlaceAuth, updates: ITouristPlaceDTO) {
         try {
-            const touristLocation = (await this.getTouristLocationById(touristPlaceAuth.id)).data;
+            const tourist = (await this.getTouristPlaceById(touristPlaceAuth.id)).data;
 
-            if (!touristLocation) return { status: 404, message: "Tourist location not found" };
+            if (!tourist) return { status: 404, message: "Tourist place not found" };
 
-            await touristLocation.update(updates);
+            await tourist.update(updates);
 
-            return { status: 200, message: "Tourist location updated successfully", data: touristLocation };
+            return { status: 200, message: "Tourist place updated successfully", data: tourist };
         } catch (error) {
             console.log(error);
             return { status: 500, message: "Internal Server Error", error: (error as Error).message };
         }
     }
 
-    async deleteTouristLocation(touristPlaceAuth: ITouristPlaceAuth) {
+    async deleteTouristPlace(touristPlaceAuth: ITouristPlaceAuth) {
         try {
-            const touristLocation = (await this.getTouristLocationById(touristPlaceAuth.id)).data;
+            const tourist = (await this.getTouristPlaceById(touristPlaceAuth.id)).data;
 
-            if (!touristLocation) return { status: 404, message: "Tourist location not found" };
+            if (!tourist) return { status: 404, message: "Tourist place not found" };
 
-            await touristLocation.destroy();
+            await tourist.destroy();
 
-            return { status: 200, message: "Tourist location deleted successfully" };
+            return { status: 200, message: "Tourist place deleted successfully" };
         } catch (error) {
             console.log(error);
             return { status: 500, message: "Internal Server Error", error: (error as Error).message };
