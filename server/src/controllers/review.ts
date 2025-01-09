@@ -9,8 +9,8 @@ interface IReviewDTO {
 class Review {
     private review: ModelStatic<ReviewModel>;
 
-    constructor(hoursModel: ModelStatic<ReviewModel>) {
-        this.review = hoursModel;
+    constructor(reviewModel: ModelStatic<ReviewModel>) {
+        this.review = reviewModel;
     }
 
     async createEvaluate(reviewDTO: IReviewDTO, touristLocationId: string, userId: string) {
