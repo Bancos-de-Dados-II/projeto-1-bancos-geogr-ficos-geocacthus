@@ -1,5 +1,5 @@
-import { Model, ModelStatic } from "sequelize";
-import userModel from "../models/user"
+import { ModelStatic } from "sequelize";
+import { User as UserModel } from "../models/user";
 
 interface IUserDTO {
     name: string;
@@ -21,13 +21,11 @@ interface IUpdateUser {
 }
 
 class User {
-    private user: ModelStatic<typeof userModel>;
+    private user: ModelStatic<UserModel>;
 
-<<<<<<< Tabnine <<<<<<<
-    constructor(userModel: ModelStatic<typeof userModel>) {
+    constructor(userModel: ModelStatic<UserModel>) {
         this.user = userModel;
     }
->>>>>>> Tabnine >>>>>>>// {"conversationId":"6dcf9461-e612-4989-9a6a-79b86807b1b3","source":"instruct"}
 
     async createUser(userDTO: IUserDTO) {
         const { name, email, password } = userDTO;
