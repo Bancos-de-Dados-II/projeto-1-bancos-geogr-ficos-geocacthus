@@ -1,6 +1,6 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import db from "../config/sequelize";
-import TouristPlace from "./touristLocation";
+import TouristPlace from "./touristPlace";
 
 class Schedules extends Model {
     declare day: string;
@@ -30,7 +30,7 @@ Schedules.init({
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-            model: 'tourist_locations',
+            model: 'tourist-places',
             key: 'id',
         },
         primaryKey: true,
