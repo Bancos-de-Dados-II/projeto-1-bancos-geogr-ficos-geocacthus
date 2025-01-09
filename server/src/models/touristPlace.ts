@@ -1,8 +1,8 @@
 import { CreationOptional, DataTypes, Model, Sequelize } from "sequelize";
 import db from "../config/sequelize";
 import User from "./user";
-import Review from "./evaluatesTouristLocation";
-import Schedules from "./hours";
+import Review from "./review";
+import Schedules from "./schedule";
 
 
 class TouristPlace extends Model {

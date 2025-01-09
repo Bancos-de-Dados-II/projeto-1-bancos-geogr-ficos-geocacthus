@@ -36,7 +36,7 @@ Review.init({
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-            model: 'tourist_locations',
+            model: 'tourist-places',
             key: 'id',
         },
         primaryKey: true,

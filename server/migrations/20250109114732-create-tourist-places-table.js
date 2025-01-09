@@ -3,41 +3,44 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('users', { 
+    await queryInterface.createTable('tourist-places', { 
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
-        allowNull: false,
         primaryKey: true,
       },
-      email: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false,
-        validate: {
-          isEmail: true,
-        },
-      },
       name: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-      },
-      password: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
+      },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      category: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      phone: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE,
+        allowNull: false,
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
-      },
+        allowNull: false,
+      }
     });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('tourist-places');
   }
 };
