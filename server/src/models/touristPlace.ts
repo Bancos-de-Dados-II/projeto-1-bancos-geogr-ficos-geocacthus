@@ -98,3 +98,4 @@ TouristPlace.hasMany(Schedules, {
 });
 
 export default TouristPlace;
+export { TouristPlace };
