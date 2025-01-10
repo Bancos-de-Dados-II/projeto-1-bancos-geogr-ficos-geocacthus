@@ -46,6 +46,24 @@ class UserService {
         }
     }
 
+    async getUserByEmail(userEmail: string) {
+        try {
+            const user = await this.userModel.findOne({ 
+                where: { email: userEmail },
+                attributes: { exclude: ['senha'] }
+            });
+
+            if (!user) throw new HttpError("Usuário não encontrado.", 404);
+
+            return user;
+        } catch (error) {
+            if (error instanceof HttpError) {
+                throw new HttpError(error.message, error.statusCode);
+            }
+
+            throw new HttpError("Erro interno ao buscar usuário.", 500);
+        }
+    }
 }
 
 
