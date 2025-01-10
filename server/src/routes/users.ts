@@ -1,15 +1,26 @@
-import { Request, Response, Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 
-const configureUsersRoutes = (router: Router) => {
-    router.post('/api/users', (req: Request, res: Response) => { });
+import UserService from "../services/userService";
+import User from "../models/user";
 
-    router.get('/api/users', (req: Request, res: Response) => { res.status(200).json({ message: "user's enpont configure ok!" }); });
+const router = Router();
+const userService = new UserService(User);
 
-    router.get('/api/users/:id', (req: Request, res: Response) => { });
+router.get("/", async (request: Request, response: Response) => {
+    try {
+        const users = await userService.getAllUsers();
+        response.status(200).json({
+            message: "Usuários encontrados com sucesso.",
+            data: users,
+        });
+    } catch (error) {
+        if (error instanceof Error) {
+            response.status(500).json({ message: 'Erro ao buscar usuários.', error: error.message });
+        }
 
-    router.put('/api/users/:id', (req: Request, res: Response) => { });
+        response.status(500).json({ message: 'Erro ao buscar usuários.', error: 'Erro desconhecido' });
+    }
+});
 
-    router.delete('/api/users/:id', (req: Request, res: Response) => { });
-};
 
-export default configureUsersRoutes;
+export default router;

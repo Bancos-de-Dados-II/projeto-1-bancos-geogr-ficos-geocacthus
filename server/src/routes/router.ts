@@ -1,10 +1,8 @@
 import { Response, Request, Router } from "express";
 import dotenv from 'dotenv';
-import configureUsersRoutes from "./users";
-import configureTouristLocationRoutes from "./touristLocation";
-import configureHoursRoutes from "./hours";
-import configureEvaluatesRoutes from "./evaluates";
+
 import authRouter from "./authentication";
+import userRouter from "./users";
 
 const router = Router();
 
@@ -19,9 +17,7 @@ router.get('/', (req: Request, res: Response) => {
     });
 });
 
-configureUsersRoutes(router);
-configureTouristLocationRoutes(router);
-configureHoursRoutes(router);
-configureEvaluatesRoutes(router);
+router.use('/auth', authRouter);
+router.use('/users', userRouter);
 
 export default router;
