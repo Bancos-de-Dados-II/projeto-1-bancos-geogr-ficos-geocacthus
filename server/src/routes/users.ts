@@ -22,5 +22,23 @@ router.get("/", async (request: Request, response: Response) => {
     }
 });
 
+router.get("/:id", async (request: Request, response: Response) => {
+    const { id } = request.params;
+    
+    try {
+        const user = await userService.getUserById(id);
+        response.status(200).json({
+            message: "Usuário encontrado com sucesso.",
+            data: user,
+        });
+    } catch (error) {
+        if (error instanceof Error) {
+            response.status(500).json({ message: 'Erro ao buscar usuário.', error: error.message });
+        }
+
+        response.status(500).json({ message: 'Erro ao buscar usuário.', error: 'Erro desconhecido' });
+    }
+});
+
 
 export default router;
