@@ -41,11 +41,6 @@ Schedules.init({
     timestamps: false,
 })
 
-Schedules.belongsTo(TouristPlace, {
-    foreignKey: 'touristLocationID',
-    as: 'touristLocation',
-});
-
 
 export default Schedules;
 export { Schedules };

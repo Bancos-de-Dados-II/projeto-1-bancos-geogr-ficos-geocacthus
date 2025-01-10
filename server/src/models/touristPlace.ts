@@ -75,27 +75,21 @@ TouristPlace.init({
     timestamps: true,
 })
 
-TouristPlace.belongsTo(User, {
-    foreignKey: 'userID',
-    as: 'creator',
-});
-
 TouristPlace.hasMany(Review, {
     foreignKey: 'touristLocationID',
     as: 'evaluationsLocations',
-});
-
-TouristPlace.belongsToMany(User, {
-    through: Review,
-    foreignKey: 'touristLocationID',
-    otherKey: 'userID',
-    as: 'evaluators'
 });
 
 TouristPlace.hasMany(Schedules, {
     foreignKey: 'touristLocationID',
     as: 'openingHours',
 });
+
+Schedules.belongsTo(TouristPlace, {
+    foreignKey: 'touristLocationID',
+    as: 'touristLocation',
+});
+
 
 export default TouristPlace;
 export { TouristPlace };
