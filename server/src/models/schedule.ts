@@ -48,3 +48,4 @@ Schedules.belongsTo(TouristPlace, {
 
 
 export default Schedules;
+export { Schedules };

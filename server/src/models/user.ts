@@ -59,3 +59,4 @@ User.belongsToMany(TouristPlace, {
 });
 
 export default User;
+export { User };
