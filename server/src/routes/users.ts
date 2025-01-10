@@ -2,6 +2,8 @@ import { Router, Request, Response, NextFunction } from "express";
 
 import UserService from "../services/userService";
 import User from "../models/user";
+import authenticateToken from "../utils/middlewares/authenticateToken";
+import HttpError from "../utils/error/httpError";
 
 const router = Router();
 const userService = new UserService(User);
@@ -37,6 +39,26 @@ router.get("/:id", async (request: Request, response: Response) => {
         }
 
         response.status(500).json({ message: 'Erro ao buscar usuário.', error: 'Erro desconhecido' });
+    }
+});
+
+router.delete('/', authenticateToken, async (request: Request, response: Response, next: Function) => {
+    try {
+        const userAuth = request.user;
+
+        if (!userAuth) {
+            throw new HttpError("Usuário não encontrado.", 404);
+        }
+
+        const user = await userService.getUserByEmail(userAuth.email);
+
+        const result = await userService.deleteUser(userAuth);
+
+        response.status(200).json({
+            message: "Usuário deletado com sucesso."
+        });
+    } catch (error) {
+        next(error);
     }
 });
 

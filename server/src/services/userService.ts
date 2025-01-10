@@ -64,6 +64,25 @@ class UserService {
             throw new HttpError("Erro interno ao buscar usuário.", 500);
         }
     }
+
+    async deleteUser(userAuth: User) {
+        try {
+            const user = await this.getUserByEmail(userAuth.email);
+
+            if(!user) {
+                throw new HttpError("Usuário não encontrado.", 404);
+            }
+
+            await user.destroy();
+        } catch (error) {
+            if (error instanceof Error) {
+                throw new HttpError("Erro ao deletar usuário.", 500, new Error(error.message));
+            }
+
+            throw new HttpError("Erro ao deletar usuário.", 500);
+        }
+    }
+
 }
 
 
