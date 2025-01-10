@@ -24,6 +24,28 @@ class UserService {
             throw new HttpError("Erro interno ao tentar buscar usuários.", 500);
         }
     }
+
+    async getUserById(userId: string) {
+        try {
+            const user = await this.userModel.findOne({ 
+                where: { id: userId },
+                attributes: { exclude: ['senha'] } 
+            })
+
+            if (!user) {
+                throw new HttpError("Usuário não encontrado.", 404);
+            }
+    
+            return user;
+        } catch (error) {
+            if (error instanceof HttpError) {
+                throw new HttpError(error.message, error.statusCode);
+            }
+
+            throw new HttpError("Erro interno ao buscar usuário.", 500);
+        }
+    }
+
 }
 
 
