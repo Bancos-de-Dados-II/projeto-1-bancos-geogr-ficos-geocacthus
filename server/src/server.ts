@@ -10,9 +10,9 @@ dotenv.config();
 const PORT = process.env.SERVER_PORT || 3000
 const server = express();
 server.use(express.json());
+server.use('/api', router);
 server.use(errorMiddleware);
 
-server.use('/', router);
 
 server.listen(PORT, () => {
     console.log(`Server is running in http://localhost:${PORT}\n`);
