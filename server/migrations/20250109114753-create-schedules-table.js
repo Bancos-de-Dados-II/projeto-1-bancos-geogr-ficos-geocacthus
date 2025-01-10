@@ -12,7 +12,7 @@ module.exports = {
         primaryKey: true,
       },
       touristLocationID: {
-        type: DataTypes.UUID,
+        type: Sequelize.UUID,
         references: {
             model: 'tourist-places',
             key: 'id',
