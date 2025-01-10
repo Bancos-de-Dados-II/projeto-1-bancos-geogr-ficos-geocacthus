@@ -1,4 +1,5 @@
 import { ModelStatic, ValidationError, ValidationErrorItem } from "sequelize";
+import jwt from "jsonwebtoken";
 import User from "../models/user";
 import HttpError from "../utils/error/httpError";
 import bcrypt from 'bcrypt';
@@ -45,6 +46,41 @@ class AuthService {
             throw new HttpError("Erro interno ao criar usuário.", 500);
         }    
     }
+
+    async login(email: string, senha: string) {
+        if (!email || !senha) {
+            throw new HttpError("Email e senha são obrigatórios.", 400);
+        }
+
+        try {
+            const user = await this.userModel.findOne({ where: { email } });
+
+            if (!user) {
+                throw new HttpError("Usuário não encontrado.", 404);
+            }
+
+            const senhaValida = await bcrypt.compare(senha, user.password);
+
+            if (!senhaValida) {
+                throw new HttpError("Senha incorreta.", 401);
+            }
+
+            const token = jwt.sign(
+                { email: user.email, tipo: user.id },
+                this.secretKey,
+                { expiresIn: "1h" }
+            );
+
+            return token;
+        } catch (error) {
+            if (error instanceof HttpError) {
+                throw new HttpError(error.message, error.statusCode);
+            }
+
+            throw new HttpError(`Erro interno ao realizar login: erro`, 500);
+        }
+    }
+
 }
 
 
