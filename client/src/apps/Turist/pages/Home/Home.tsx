@@ -1,21 +1,8 @@
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
-import { LatLngTuple } from "leaflet"
+// import { LatLngTuple } from "leaflet"
 import "./home.css"
 
-const touristLocations = [
-    {
-        id: 1,
-        name: "Ponto Turístico 1",
-        description: "Descrição do ponto turístico 1.",
-        position: [-7.135, -34.876] as LatLngTuple, // Coordenadas de exemplo
-    },
-    {
-        id: 2,
-        name: "Ponto Turístico 2",
-        description: "Descrição do ponto turístico 2.",
-        position: [-7.130, -34.870] as LatLngTuple, // Coordenadas de exemplo
-    },
-]
+import touristLocations from "../../../../data/touristLocation"
 
 function Home() {
     return (
