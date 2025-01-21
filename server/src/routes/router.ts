@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 import authRouter from "./authentication";
 import userRouter from "./users";
+import touristPlaceRouter from "./touristPlace";
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.get('/', (req: Request, res: Response) => {
 
 router.use('/auth', authRouter);
 router.use('/users', userRouter);
+router.use('/tourist-place', touristPlaceRouter);
 
 export default router;

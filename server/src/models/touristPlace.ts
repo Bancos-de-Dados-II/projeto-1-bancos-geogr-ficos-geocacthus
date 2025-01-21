@@ -53,14 +53,6 @@ TouristPlace.init({
             len: [10, 15],
         },
     },
-    latitude: {
-        type: DataTypes.DECIMAL(10, 6),
-        allowNull: false,
-    },
-    longitude: {
-        type: DataTypes.DECIMAL(10, 6),
-        allowNull: false,
-    },
     userID: {
         type: DataTypes.UUID,
         allowNull: false,
