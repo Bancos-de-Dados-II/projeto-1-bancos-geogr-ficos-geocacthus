@@ -1,10 +1,20 @@
+import { useState } from "react"
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
-// import { LatLngTuple } from "leaflet"
+import { LatLngTuple } from "leaflet"
 import "./home.css"
 
 import touristLocations from "../../../../data/touristLocation"
 
+interface ITouristLocation {
+    id: number;
+    name: string;
+    description: string;
+    position: LatLngTuple;
+}
+
 function Home() {
+    const [selectedLocation, setSelectedLocation] = useState<ITouristLocation | null>(null);
+
     return (
         <div className="home-turist-container">
             <div className="content-header">
@@ -31,7 +41,15 @@ function Home() {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         />
                         {touristLocations.map((location) => (
-                            <Marker key={location.id} position={location.position}>
+                            <Marker 
+                                key={location.id} 
+                                position={location.position}
+                                eventHandlers={{
+                                    click: () => {
+                                        setSelectedLocation(location);
+                                    }
+                                }}
+                            >
                                 <Popup>
                                     <strong>{location.name}</strong>
                                     <br />
@@ -43,10 +61,21 @@ function Home() {
                 </div>
                 <div className="box-info">
                     <div className="camp-info">
-                        <h3>info</h3>
+                        {selectedLocation ? (
+                            <div>
+                                <h3>{selectedLocation.name}</h3>
+                                <h5>{selectedLocation.position}</h5>
+                                <p>{selectedLocation.description}</p>
+                            </div>
+                        ) : (
+                            <p>Selecionar um ponto para ver detalhes.</p>
+                        )}
                     </div>
                     <div className="camp-reviews">
-                        <h3>reviews</h3>
+                        {/* Listar reviews aqui */}
+                        <p>Campo de reviews em breve</p>
+                        {/* Implementar componente de reviews */}
+                        {/* <ReviewList reviews={reviews} /> */}
                     </div>
                 </div>
             </div>
