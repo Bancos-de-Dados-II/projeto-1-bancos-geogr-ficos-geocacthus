@@ -44,7 +44,7 @@ interface ITouristCreate {
     };
 }
 
-interface ITouristLocationBase {
+export interface ITouristLocationBase {
     id: string;
     name: string;
     description: string;

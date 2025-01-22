@@ -1,20 +1,24 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
-import { LatLngTuple } from "leaflet"
 import "./home.css"
 
-import touristLocations from "../../../../data/touristLocation"
-
-interface ITouristLocation {
-    id: number;
-    name: string;
-    description: string;
-    position: LatLngTuple;
-}
+import touristServices, { ITouristLocationBase } from "../../../../service/touristLocation"
 
 function Home() {
-    const [selectedLocation, setSelectedLocation] = useState<ITouristLocation | null>(null);
+    
+    const [touristLocations, setTouristLocations] = useState<ITouristLocationBase[]>([]);
+    const [selectedLocation, setSelectedLocation] = useState<ITouristLocationBase | null>(null);
 
+    useEffect(() => {
+        const fetchLocations = async () => {
+            const locations = await touristServices.fetchTouristLocations();
+            if (locations) {
+                setTouristLocations(locations);
+            }
+        };
+
+        fetchLocations();
+    }, []);
     return (
         <div className="home-turist-container">
             <div className="content-header">
@@ -63,9 +67,13 @@ function Home() {
                     <div className="camp-info">
                         {selectedLocation ? (
                             <div>
-                                <h3>{selectedLocation.name}</h3>
-                                <h5>{selectedLocation.position}</h5>
-                                <p>{selectedLocation.description}</p>
+                                <img src={selectedLocation!.image} alt="" />
+                                <h3>{selectedLocation.name}</h3>     
+                                <h5>{selectedLocation.position}</h5> 
+                                <p>Endereço: N° {selectedLocation!.address.number}, {selectedLocation!.address.street}, {selectedLocation!.address.city} - {selectedLocation!.address.state}</p>
+                                <p>Telefone: {selectedLocation!.phone}</p>
+                                <p>{selectedLocation.description}</p> 
+                                <p></p>
                             </div>
                         ) : (
                             <p>Selecionar um ponto para ver detalhes.</p>
