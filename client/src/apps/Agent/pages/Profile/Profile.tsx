@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons"
 import "./profile.css"
 function Profile() {
     return (
@@ -37,22 +39,42 @@ function Profile() {
                         <div className="content-card">
                             <h4 className="title-card">Cristo Redentor</h4>
                             <h6 className="coodinates">-38.783, -78.374</h6>
+                            <div className="card-actions">
+                                <FontAwesomeIcon icon={faEdit} className="icon edit-icon" title="Edit" />
+                                <FontAwesomeIcon icon={faTrash} className="icon delete-icon" title="Delete" />
+                            </div>
                         </div>
                         <div className="content-card">
                             <h4 className="title-card">card 2</h4>
                             <h6 className="coodinates">-38.783, -78.374</h6>
+                            <div className="card-actions">
+                                <FontAwesomeIcon icon={faEdit} className="icon edit-icon" title="Edit" />
+                                <FontAwesomeIcon icon={faTrash} className="icon delete-icon" title="Delete" />
+                            </div>
                         </div>
                         <div className="content-card">
                             <h4 className="title-card">card 3 widhww dwhd</h4>
                             <h6 className="coodinates">-38.783, -78.374</h6>
+                            <div className="card-actions">
+                                <FontAwesomeIcon icon={faEdit} className="icon edit-icon" title="Edit" />
+                                <FontAwesomeIcon icon={faTrash} className="icon delete-icon" title="Delete" />
+                            </div>
                         </div>
                         <div className="content-card">
                             <h4 className="title-card">card 4 dhwhw dwdhdwidhwhd wdwidhww dwhd</h4>
                             <h6 className="coodinates">-38.783, -78.374</h6>
+                            <div className="card-actions">
+                                <FontAwesomeIcon icon={faEdit} className="icon edit-icon" title="Edit" />
+                                <FontAwesomeIcon icon={faTrash} className="icon delete-icon" title="Delete" />
+                            </div>
                         </div>
                         <div className="content-card">
                             <h4 className="title-card">card 5 dhwhwwidh sdjhddw n w3e3 r rwhd wdwidhww dwhd</h4>
                             <h6 className="coodinates">-38.783, -78.374</h6>
+                            <div className="card-actions">
+                                <FontAwesomeIcon icon={faEdit} className="icon edit-icon" title="Edit" />
+                                <FontAwesomeIcon icon={faTrash} className="icon delete-icon" title="Delete" />
+                            </div>
                         </div>
                     </div>
                 </div>
