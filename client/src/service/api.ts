@@ -1,3 +1,4 @@
+import axios from "axios";
 import { LatLngTuple } from "leaflet";
 
 interface IApiResponse {
@@ -65,11 +66,9 @@ const dataTouristLocations: ITouristLocationBase[] = [];
 
 const fetchTouristLocations = async () => {
     try {
-        const response = await fetch("http://localhost:3000/api/tourist-place");
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data: IApiResponse[] = await response.json();
+        const response = await axios.get<IApiResponse[]>("http://localhost:3000/api/tourist-place");
+        const data = response.data;
+
         dataTouristLocations.length = 0; // Limpa os dados antigos
 
         // grantir que os dados do caampo position sejam encontrados pelo caminho correto
@@ -120,19 +119,14 @@ const createTouristLocation = async (touristPlace: ITouristCreate) => {
     };
     
     try {
-        const response = await fetch(endpoint, {
-            method: "POST",
+        const response = await axios.post(endpoint, body, { 
             headers: {
-                "ContentType": "aplication/json",
+                "Content-Type": "aplication/json",
                 Autorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(body),
         });
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log("Novo local turístico cadstrado com sucesso: ", data);
+
+        console.log("Novo local turístico cadstrado com sucesso: ", response.data);
     } catch (error) {
         console.log("Erro ao cadastrar novo local turístico: ", error);
     }
