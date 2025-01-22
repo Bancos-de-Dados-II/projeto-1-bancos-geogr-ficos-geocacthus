@@ -53,6 +53,10 @@ TouristPlace.init({
             len: [10, 15],
         },
     },
+    location: {
+        type: DataTypes.GEOMETRY("POINT"),
+        allowNull: false,
+    },
     userID: {
         type: DataTypes.UUID,
         allowNull: false,

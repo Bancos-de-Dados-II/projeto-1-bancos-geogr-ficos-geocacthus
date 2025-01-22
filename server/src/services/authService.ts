@@ -66,7 +66,12 @@ class AuthService {
             }
 
             const token = jwt.sign(
-                { email: user.email, tipo: user.id },
+                {
+                    id: user.id,
+                    email: user.email,
+                    name: user.name,
+                    password: user.password
+                } as Partial<User>,
                 this.secretKey,
                 { expiresIn: "1h" }
             );
