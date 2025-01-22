@@ -4,9 +4,9 @@ import db from "../config/sequelize";
 
 class Review extends Model {
     declare rating: number;
-    declare date: Date;
+    declare comment: string;
     declare userId: string;
-    declare touristLocationID: string;
+    declare touristPlaceID: string;
 }
 
 Review.init({
@@ -18,10 +18,12 @@ Review.init({
             max: 5,
         },
     },
-    date: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        primaryKey: true,
+    comment: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        validate: {
+            len: [0, 500],
+        },
     },
     userID: {
         type: DataTypes.UUID,
@@ -32,7 +34,7 @@ Review.init({
         },
         primaryKey: true,
     },
-    touristLocationID: {
+    touristPlaceID: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {

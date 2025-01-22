@@ -12,7 +12,6 @@ interface Address {
 class GeocodingService {
     async getCoordinates(address: Address): Promise<{ lat: number; lon: number }> {
         const { street, city, state, country, postalcode } = address;
-        console.log(`Buscando coordenadas para o endereço: ${street}, ${city}, ${state}, ${country}`);
         
         try {
             const response = await axios.get("https://nominatim.openstreetmap.org/search", {
@@ -28,8 +27,6 @@ class GeocodingService {
                 },
                 timeout: 10000,
             });
-
-            console.log("Resposta da API Nominatim:", response.data);
 
             if (!response.data || response.data.length === 0) {
                 throw new HttpError("Endereço não encontrado. Por favor, revise o endereço informado.", 404);
