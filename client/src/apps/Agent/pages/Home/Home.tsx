@@ -29,10 +29,22 @@ function Home() {
                 <div id="search" className="box-camp">
                     <h3>Search</h3>
                 </div>
-                <div id="filter" className="box-camp">
-                    <a href="/agent/create/tourist-place">
-                        <h3>Create Tourist Location</h3>
-                    </a>
+                <div id="actions" className="box-camp">
+                    <div className="action-element">
+                        <a href="/agent/create/tourist-place">
+                            <h3>Create Tourist Location</h3>
+                        </a>
+                    </div>
+                    <div className="action-element">
+                        <a href="/agent/profile">
+                            <h3>Profile</h3>
+                        </a>
+                    </div>
+                    <div className="action-element">
+                        <a href="/">
+                            <h3>Logout</h3>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div className="content-main">

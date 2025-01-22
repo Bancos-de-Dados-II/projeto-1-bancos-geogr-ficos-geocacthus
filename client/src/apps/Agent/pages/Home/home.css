@@ -1,2 +1,19 @@
 @import "leaflet/dist/leaflet.css";
-@import "../../../Turist/pages/Home/home.css"
+@import "../../../Turist/pages/Home/home.css";
+
+.box-camp {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#actions {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.action-element {
+    padding: 0 .8rem;
+}
+
