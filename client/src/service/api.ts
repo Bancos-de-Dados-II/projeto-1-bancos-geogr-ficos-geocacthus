@@ -132,5 +132,21 @@ const createTouristLocation = async (touristPlace: ITouristCreate, my_token: str
     }
 }
 
+const deleteTouristLocation = async (id: string, my_token: string) => {
+    const endpoint = `http://localhost:3000/api/tourist-place/${id}`;
 
-export default { fetchTouristLocations, createTouristLocation };
+    try {
+        const response = await axios.delete(endpoint, {
+            headers: {
+                Authorization: `Bearer ${my_token}`,
+            },
+        });
+
+        console.log("Local turístico deletado com sucesso: ", response.data);
+    } catch (error) {
+        console.log("Erro ao deletar local turístico: ", (error as Error).message);
+    }
+}
+
+
+export default { fetchTouristLocations, createTouristLocation, deleteTouristLocation };
