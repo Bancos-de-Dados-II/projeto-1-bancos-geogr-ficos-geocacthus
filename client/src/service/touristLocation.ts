@@ -43,14 +43,6 @@ export interface ITouristLocationBase {
     category: string;
     image: string;
     phone: string;
-    address: {
-        street: string;
-        number: string;
-        city: string;
-        state: string;
-        country: string;
-        postalCode: string;
-    };
     position: LatLngTuple;
 }
 

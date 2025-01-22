@@ -108,14 +108,6 @@ function SignUp() {
           </p>
         </div>
       </div>
-      <div className="content-section-graph">
-        <div className="section-logo">
-          <img src="../../assets/logo_white_transparent.png" alt="Logo" />
-        </div>
-        <div className="section-logo-info">
-          <p>PetCare+ : Vaccination, Bath, and Grooming System</p>
-        </div>
-      </div>
     </div>
   );
 }

@@ -24,13 +24,15 @@ function Home() {
             <div className="content-header">
                 {/* campos de titulo, pesquisa e filtors de regioẽs */}
                 <div id="title" className="box-camp">
-                    <h2>Home Turist</h2>
+                    <h3>Home Turist</h3>
                 </div>
                 <div id="search" className="box-camp">
-                    <h2>Search</h2>
+                    <h3>Search</h3>
                 </div>
                 <div id="filter" className="box-camp">
-                    <h2>Filter</h2>
+                    <a href="/create/tourist-place">
+                        <h3>Create Tourist Location</h3>
+                    </a>
                 </div>
             </div>
             <div className="content-main">

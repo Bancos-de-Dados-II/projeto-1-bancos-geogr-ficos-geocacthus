@@ -11,9 +11,15 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: .27rem 1rem;
 
     border: .1rem solid #000;
+
+    & a {
+        text-decoration: none;
+        color: #000;
+    }
 }
 
 .content-main {

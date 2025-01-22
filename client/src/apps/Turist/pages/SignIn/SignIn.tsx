@@ -90,14 +90,6 @@ function SignIn() {
                     <p>Don't have an account? <a href="/signup">Sign Up</a></p>
                 </div>
             </div>
-            <div className="content-section-graph">
-                <div className="section-logo">
-                    <img src="" alt="Logo" />
-                </div>
-                <div className="section-logo-info">
-                    <p>GeoCacthus</p>
-                </div>
-            </div>
         </div>
     );
 }
