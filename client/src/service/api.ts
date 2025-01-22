@@ -28,7 +28,6 @@ interface IApiResponse {
 }
 
 interface ITouristCreate {
-    id: string;
     name: string;
     description: string;
     category: string;
