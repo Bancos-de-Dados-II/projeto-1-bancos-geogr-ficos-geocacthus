@@ -98,9 +98,9 @@ const fetchTouristLocations = async () => {
     }
 }
 
-const createTouristLocation = async (touristPlace: ITouristCreate) => {
+const createTouristLocation = async (touristPlace: ITouristCreate, my_token: string) => {
     const endpoint = "http://localhost:3000/api/tourist-place";
-    const token = "my_token";
+    const token = my_token;
 
     const body = {
         name: touristPlace.name,                        //"Cristo Redentor"
