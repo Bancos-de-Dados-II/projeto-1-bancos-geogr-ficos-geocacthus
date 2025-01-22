@@ -87,13 +87,13 @@ const fetchTouristLocations = async () => {
                 country: instance.address.country,
                 postalCode: instance.address.postalcode,
             },
-            position: instance.location.coordinates as LatLngTuple, // Coordenadas do ponto no mapa
+            position: [instance.location.coordinates[1], instance.location.coordinates[0]] as LatLngTuple, //// Conversão para o formato Latitude e Longitude
         }));
 
         dataTouristLocations.push(...formattedData);
         return dataTouristLocations;
     } catch (error) {
-        console.log("Erro na busca de dados do endpoint: ", error);
+        console.log("Erro na busca de dados do endpoint: ", (error as Error).message);
         return null
     }
 }
@@ -121,14 +121,14 @@ const createTouristLocation = async (touristPlace: ITouristCreate, my_token: str
     try {
         const response = await axios.post(endpoint, body, { 
             headers: {
-                "Content-Type": "aplication/json",
-                Autorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
         });
 
         console.log("Novo local turístico cadstrado com sucesso: ", response.data);
     } catch (error) {
-        console.log("Erro ao cadastrar novo local turístico: ", error);
+        console.log("Erro ao cadastrar novo local turístico: ", (error as Error).message);
     }
 }
 
