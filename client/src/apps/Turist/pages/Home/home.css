@@ -1,6 +1,6 @@
 @import "leaflet/dist/leaflet.css";
 
-.home-turist-container {
+.home-container {
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 5.1vh);
