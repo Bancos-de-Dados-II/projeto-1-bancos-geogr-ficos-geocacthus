@@ -1,10 +1,34 @@
+import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons"
 import "./profile.css"
+
+import touristServices, { ITouristLocationBase } from "../../../../service/touristLocation"
+
 function Profile() {
+    const [locations, setLocations] = useState<ITouristLocationBase[]>([]);
+    const my_token = "meu_token";
+
+    const fetchLocations = async () => {
+        const response = await touristServices.fetchTouristLocations();
+        if (response) setLocations(response);
+    };
+
+    const handleDelete = async (id: string) => {
+        const confirmDelete = window.confirm("Deseja realmente excluir este local turístico?");
+        if (confirmDelete) {
+            await touristServices.deleteTouristLocation(id, my_token);
+            setLocations(locations.filter((location) => location.id !== id));
+        }
+    }
+
+    useEffect(() => {
+        fetchLocations();
+    }, []);
+
     return (
         <div className="container-profile">
-            <div className="content-header">
+            <div className="content-header">    
                 {/* campos de titulo, pesquisa e filtors de regioẽs */}
                 <div id="title" className="box-camp">
                     <h3>Home Agent</h3>
