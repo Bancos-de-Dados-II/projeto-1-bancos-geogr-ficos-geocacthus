@@ -6,6 +6,7 @@ interface IApiResponse {
     description: string;
     category: string;
     image: string;
+    phone: string;
     address: {
         street: string;
         number: string;
@@ -49,6 +50,7 @@ interface ITouristLocationBase {
     description: string;
     category: string;
     image: string;
+    phone: string;
     address: {
         street: string;
         number: string;
@@ -78,6 +80,7 @@ const fetchTouristLocations = async () => {
             description: instance.description,
             category: instance.category,
             image: instance.image,
+            phone: instance.phone,
             address: {
                 street: instance.address.street,
                 number: instance.address.number,
