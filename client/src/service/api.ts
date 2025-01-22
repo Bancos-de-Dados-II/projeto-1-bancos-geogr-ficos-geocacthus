@@ -100,7 +100,6 @@ const fetchTouristLocations = async () => {
 
 const createTouristLocation = async (touristPlace: ITouristCreate, my_token: string) => {
     const endpoint = "http://localhost:3000/api/tourist-place";
-    const token = my_token;
 
     const body = {
         name: touristPlace.name,                        //"Cristo Redentor"
@@ -122,7 +121,7 @@ const createTouristLocation = async (touristPlace: ITouristCreate, my_token: str
         const response = await axios.post(endpoint, body, { 
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${my_token}`,
             },
         });
 
