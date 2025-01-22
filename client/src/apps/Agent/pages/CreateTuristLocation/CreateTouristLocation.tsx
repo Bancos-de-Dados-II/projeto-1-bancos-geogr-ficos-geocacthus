@@ -55,7 +55,7 @@ function CreateTouristLocation() {
             await touristServices.createTouristLocation(formData, token);
             alert("Local turístico cadastrado com sucesso!");
 
-            navigate("/");
+            navigate("/agent/home-agent");
         } catch (error) {
             setError("Ocorreu um erro ao cadastrar o local turístico: ");
             console.log(error);

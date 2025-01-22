@@ -30,10 +30,10 @@ function Home() {
                     <h3>Search</h3>
                 </div>
                 <div id="filter" className="box-camp">
-                    <a href="/create/tourist-place">
-                        <h3>Create Tourist Location</h3>
+                    <a href="/agent/home-agent"> {/*redirecionar para a rota /home-agent*/}
+                        <h3>Login</h3>
                     </a>
-                </div>
+                </div>  
             </div>
             <div className="content-main">
                 <div className="box-map">
