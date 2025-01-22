@@ -1,0 +1,89 @@
+.container-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-modal {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;    
+    color: #000;
+    padding: 3rem 3rem 1.3rem;
+    width: 30%;
+    border-radius: .3rem;
+
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.75);
+    box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.75);
+}
+
+.data-event {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0 3rem;
+}
+
+.element-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    padding: .5rem 0 1rem;
+}
+
+.element-modal input, .element-modal textarea {
+    width: 100%;
+    padding:.8rem 0 .8rem .5rem;
+    border-radius:.2rem;
+    border: 1px solid #ccc;
+    margin-bottom:.5rem; 
+    box-sizing: border-box;   
+}
+
+.element-date-modal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.element-date-modal input {
+    width: 99%;
+}
+
+.element-submit-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: .3rem 0 2.8rem;
+}
+
+.element-submit-modal input {
+    margin-top: 1.5rem;
+    padding:.9rem 1.5rem;
+    border-radius:1rem;
+    background-color: #292929;
+    color: #fff;
+    font-size: 15px;
+    border: 0;
+    margin-bottom:.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.element-submit-modal input:hover {
+    cursor: pointer;
+}
+
+.element-submit-modal input:active {
+    transform: scale(0.95); 
+    background-color: #1c1c1c; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.element-modal label {
+    margin: 0 0 .2rem .2rem;
+}
