@@ -20,7 +20,7 @@ function Home() {
         fetchLocations();
     }, []);
     return (
-        <div className="home-turist-container">
+        <div className="home-container">
             <div className="content-header">
                 {/* campos de titulo, pesquisa e filtors de regioẽs */}
                 <div id="title" className="box-camp">

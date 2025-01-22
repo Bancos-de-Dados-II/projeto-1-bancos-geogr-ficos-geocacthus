@@ -2,8 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 
 import Home from "../pages/Home/Home"
 import CreateTouristLocation from "../../Agent/pages/CreateTuristLocation/CreateTouristLocation";
-
-// import Profile  from "../pages/Profile/Profile";
+import Profile  from "../pages/Profile/Profile";
 
 const AgentRoutes = () => {
     return (
@@ -12,7 +11,7 @@ const AgentRoutes = () => {
 
             <Route path="/home-agent" element={<Home />} />
             <Route path="/create/tourist-place" element={<CreateTouristLocation />} />
-            {/* <Route path="/profile" element={<Profile />} /> */}
+            <Route path="/profile" element={<Profile />} />
         </Routes>
     );
 }
