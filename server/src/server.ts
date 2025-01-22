@@ -4,11 +4,15 @@ import sequelize from './config/sequelize';
 import router from './routes/router';
 import HttpError from './utils/error/httpError';
 import errorMiddleware from './utils/middlewares/errorMiddleware';
+import cors from 'cors';
 
 dotenv.config();
 
+
 const PORT = process.env.SERVER_PORT || 3000
 const server = express();
+
+server.use(cors())
 server.use(express.json());
 server.use('/api', router);
 server.use(errorMiddleware);

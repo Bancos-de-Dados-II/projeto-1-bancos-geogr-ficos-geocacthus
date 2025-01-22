@@ -70,7 +70,6 @@ function Home() {
                                 <img src={selectedLocation!.image} alt="" />
                                 <h3>{selectedLocation.name}</h3>     
                                 <h5>{selectedLocation.position}</h5> 
-                                <p>Endereço: N° {selectedLocation!.address.number}, {selectedLocation!.address.street}, {selectedLocation!.address.city} - {selectedLocation!.address.state}</p>
                                 <p>Telefone: {selectedLocation!.phone}</p>
                                 <p>{selectedLocation.description}</p> 
                                 <p></p>

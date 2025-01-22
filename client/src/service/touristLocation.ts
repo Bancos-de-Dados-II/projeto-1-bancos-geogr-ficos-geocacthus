@@ -8,14 +8,6 @@ interface IApiResponse {
     category: string;
     image: string;
     phone: string;
-    address: {
-        street: string;
-        number: string;
-        city: string;
-        state: string;
-        country: string;
-        postalcode: string;
-    };
     location: {
         crs: {
             type: string;
@@ -66,12 +58,12 @@ const dataTouristLocations: ITouristLocationBase[] = [];
 
 const fetchTouristLocations = async () => {
     try {
-        const response = await axios.get<IApiResponse[]>("http://localhost:3000/api/tourist-place");
+        const response = await axios.get<IApiResponse[]>("http://localhost:3000/api/tourist-place/");
         const data = response.data;
+        console.log(data);
 
-        dataTouristLocations.length = 0; // Limpa os dados antigos
+        dataTouristLocations.length = 0;
 
-        // garantir que os dados do campo position sejam encontrados pelo caminho correto
         const formattedData = data.map(instance => ({
             id: instance.id,
             name: instance.name,
@@ -79,14 +71,6 @@ const fetchTouristLocations = async () => {
             category: instance.category,
             image: instance.image,
             phone: instance.phone,
-            address: {
-                street: instance.address.street,
-                number: instance.address.number,
-                city: instance.address.city,
-                state: instance.address.state,
-                country: instance.address.country,
-                postalCode: instance.address.postalcode,
-            },
             position: [instance.location.coordinates[1], instance.location.coordinates[0]] as LatLngTuple, // Conversão para o formato Latitude e Longitude
         }));
 
