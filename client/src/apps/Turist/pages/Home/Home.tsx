@@ -1,20 +1,11 @@
 import { useEffect, useState } from "react"
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
-import { LatLngTuple } from "leaflet"
 import "./home.css"
 
 import touristServices, { ITouristLocationBase } from "../../../../service/touristLocation"
-import touristLocationsTest from "../../../../data/touristLocation"
-
-interface ITouristLocation {
-    id: number;
-    name: string;
-    description: string;
-    position: LatLngTuple;
-}
 
 function Home() {
-    {/*
+    
     const [touristLocations, setTouristLocations] = useState<ITouristLocationBase[]>([]);
     const [selectedLocation, setSelectedLocation] = useState<ITouristLocationBase | null>(null);
 
@@ -28,10 +19,6 @@ function Home() {
 
         fetchLocations();
     }, []);
-    */}
-
-    const [selectedLocationTest, setSelectedLocationTest] = useState<ITouristLocation | null>(null); // para teste, retirar depois
-
     return (
         <div className="home-turist-container">
             <div className="content-header">
@@ -57,13 +44,13 @@ function Home() {
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         />
-                        {touristLocationsTest.map((location) => ( // substituir o touristLocationsTest por touristLocations
+                        {touristLocations.map((location) => (
                             <Marker 
                                 key={location.id} 
                                 position={location.position}
                                 eventHandlers={{
                                     click: () => {
-                                        setSelectedLocationTest(location); // substituir o setSelectedLocationsTest por setSelectedLocation
+                                        setSelectedLocation(location);
                                     }
                                 }}
                             >
@@ -78,14 +65,14 @@ function Home() {
                 </div>
                 <div className="box-info">
                     <div className="camp-info">
-                        {selectedLocationTest ? ( // substituir o selectedLocationsTest por selectedLocation e descomentar campos
+                        {selectedLocation ? (
                             <div>
-                                {/* <img src={selectedLocation!.image} alt="" /> */}
-                                <h3>{selectedLocationTest.name}</h3>      {/* substituir o selectedLocationsTest por selectedLocation */}
-                                <h5>{selectedLocationTest.position}</h5>  {/* substituir o selectedLocationsTest por selectedLocation */}
-                                {/* <p>Endereço: N° {selectedLocation!.address.number}, {selectedLocation!.address.street}, {selectedLocation!.address.city} - {selectedLocation!.address.state}</p> */}
-                                {/* <p>Telefone: {selectedLocation!.phone}</p> */}
-                                <p>{selectedLocationTest.description}</p> {/* substituir o selectedLocationsTest por selectedLocation */}
+                                <img src={selectedLocation!.image} alt="" />
+                                <h3>{selectedLocation.name}</h3>     
+                                <h5>{selectedLocation.position}</h5> 
+                                <p>Endereço: N° {selectedLocation!.address.number}, {selectedLocation!.address.street}, {selectedLocation!.address.city} - {selectedLocation!.address.state}</p>
+                                <p>Telefone: {selectedLocation!.phone}</p>
+                                <p>{selectedLocation.description}</p> 
                                 <p></p>
                             </div>
                         ) : (
