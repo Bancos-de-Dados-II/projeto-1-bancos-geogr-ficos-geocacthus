@@ -71,7 +71,7 @@ const fetchTouristLocations = async () => {
 
         dataTouristLocations.length = 0; // Limpa os dados antigos
 
-        // grantir que os dados do caampo position sejam encontrados pelo caminho correto
+        // garantir que os dados do campo position sejam encontrados pelo caminho correto
         const formattedData = data.map(instance => ({
             id: instance.id,
             name: instance.name,
@@ -87,7 +87,7 @@ const fetchTouristLocations = async () => {
                 country: instance.address.country,
                 postalCode: instance.address.postalcode,
             },
-            position: [instance.location.coordinates[1], instance.location.coordinates[0]] as LatLngTuple, //// Conversão para o formato Latitude e Longitude
+            position: [instance.location.coordinates[1], instance.location.coordinates[0]] as LatLngTuple, // Conversão para o formato Latitude e Longitude
         }));
 
         dataTouristLocations.push(...formattedData);
@@ -126,7 +126,7 @@ const createTouristLocation = async (touristPlace: ITouristCreate, my_token: str
             },
         });
 
-        console.log("Novo local turístico cadstrado com sucesso: ", response.data);
+        console.log("Novo local turístico cadastrado com sucesso: ", response.data);
     } catch (error) {
         console.log("Erro ao cadastrar novo local turístico: ", (error as Error).message);
     }
