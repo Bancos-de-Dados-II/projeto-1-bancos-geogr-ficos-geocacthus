@@ -55,11 +55,29 @@ function Profile() {
                 </div>
             </div>
             <div id="main-profile" className="content-main">
+                {/* Implementar formulário para edição de dados */}
+                {/* <ProfileForm /> */}
                 <div className="title-section">
                     <h3>My Tourist Location</h3>
                 </div>
                 <div className="container-locations">
                     <div className="section-locations">
+                        {locations && locations.length > 0 ? (
+                            locations.map(locate => (
+                                <div className="content-card" key={locate.id}>
+                                    <h4 className="title-card">{locate.name}</h4>
+                                    <h6 className="coodinates">{locate.position.join(", ")}</h6>
+                                    <div className="card-actions">
+                                        <FontAwesomeIcon icon={faEdit} className="icon edit-icon" title="Edit" />
+                                        <FontAwesomeIcon icon={faTrash} className="icon delete-icon" title="Delete" onClick={() => handleDelete(locate.id)} />
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p>Usuario não possui locais turisticos cadastrados</p>
+                        )}
+
+                        {/*
                         <div className="content-card">
                             <h4 className="title-card">Cristo Redentor</h4>
                             <h6 className="coodinates">-38.783, -78.374</h6>
@@ -100,10 +118,9 @@ function Profile() {
                                 <FontAwesomeIcon icon={faTrash} className="icon delete-icon" title="Delete" />
                             </div>
                         </div>
+                        */}
                     </div>
                 </div>
-                {/* Implementar formulário para edição de dados */}
-                {/* <ProfileForm /> */}
             </div>
         </div>
     )
