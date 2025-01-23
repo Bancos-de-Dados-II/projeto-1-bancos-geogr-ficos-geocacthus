@@ -6,13 +6,27 @@ import "./profile.css"
 import touristServices, { ITouristLocationBase } from "../../../../service/touristLocation"
 
 function Profile() {
-    const [locations, setLocations] = useState<ITouristLocationBase[]>([]);
     const my_token = "meu_token";
+    const [locations, setLocations] = useState<ITouristLocationBase[]>([]);
+    const [editingLocation, setEditingLocation] = useState<ITouristLocationBase | null>(null);
+
 
     const fetchLocations = async () => {
         const response = await touristServices.fetchTouristLocations();
         if (response) setLocations(response);
     };
+
+    const handleEdit = (location: ITouristLocationBase) => {
+        setEditingLocation(location);
+    };
+
+    const handleSave = async () => {
+        if (editingLocation) {
+            await touristServices.updateTouristLocation(editingLocation, my_token);
+            setLocations(prev => prev.map(locate => (locate.id === editingLocation.id ? editingLocation : locate)));
+            setEditingLocation(null);
+        }
+    }
 
     const handleDelete = async (id: string) => {
         const confirmDelete = window.confirm("Deseja realmente excluir este local turístico?");
@@ -55,20 +69,124 @@ function Profile() {
                 </div>
             </div>
             <div id="main-profile" className="content-main">
-                {/* Implementar formulário para edição de dados */}
-                {/* <ProfileForm /> */}
                 <div className="title-section">
                     <h3>My Tourist Location</h3>
                 </div>
                 <div className="container-locations">
                     <div className="section-locations">
-                        {locations && locations.length > 0 ? (
+                        {editingLocation ? (
+                            <form className="form-modal" onSubmit={event => event.preventDefault()}>
+                                <div className="data-event">
+                                    <h2>Editar Local Turistico</h2>
+                                </div>
+                
+                                <div className="element-modal">
+                                    <label htmlFor="name">Nome</label>
+                                    <input id="name-imput" type="text" name="name" value={editingLocation.name || ""} 
+                                        onChange={(event) => setEditingLocation((prev) => (prev ? { ...prev, name: event.target.value } : null))} 
+                                        placeholder="Nome" required 
+                                    />
+                                </div>
+                                <div className="element-modal">
+                                    <label htmlFor="description">Descrição</label>
+                                    <textarea id="description-imput" name="description" value={editingLocation.description || ""} 
+                                        onChange={(event) => setEditingLocation((prev) => (prev ? { ...prev, description: event.target.value } : null))} 
+                                        rows={5} placeholder="Descrição" required 
+                                    />
+                                </div>
+                                <div className="element-modal">
+                                    <label htmlFor="category">Categoria</label>
+                                    <input id="category-imput" type="text" name="category" value={editingLocation.category || ""} 
+                                        onChange={(event) => setEditingLocation((prev) => (prev ? { ...prev, category: event.target.value } : null))} 
+                                        placeholder="Categoria" required 
+                                    />
+                                </div>
+                                <div className="element-modal">
+                                    <label htmlFor="image">Imagem</label>
+                                    <input id="image-imput" type="text" name="image" value={editingLocation.image || ""} 
+                                        onChange={(event) => setEditingLocation((prev) => (prev ? { ...prev, image: event.target.value } : null))} 
+                                        placeholder="Url da imagem" required 
+                                />
+                                </div>
+                                <div className="element-modal">
+                                    <label htmlFor="phone">Telefone</label>
+                                    <input id="phone-imput" type="text" name="phone" value={editingLocation.phone || ""} 
+                                        onChange={(event) => setEditingLocation((prev) => (prev ? { ...prev, phone: event.target.value } : null))} 
+                                        placeholder="(00) 00000-0000" required 
+                                    />
+                                </div>
+                                <div className="element-date-modal">
+                                    <div className="element-modal">
+                                        <label htmlFor="address.street">Rua</label>
+                                        <input id="street-imput" type="text" name="address.street" value={editingLocation.address.street || ""} 
+                                            onChange={(event) => setEditingLocation((prev) => prev ? {
+                                                ...prev, address: { ...prev.address, street: event.target.value },
+                                            } : null)} 
+                                            placeholder="Rua/Av" required 
+                                        />
+                                    </div>
+                                    <div className="element-modal">
+                                        <label htmlFor="address.number">Número</label>
+                                        <input id="number-imput" type="text" name="address.number" value={editingLocation.address.number || ""} 
+                                            onChange={(event) => setEditingLocation((prev) => prev ? {
+                                                ...prev, address: {...prev.address, number: event.target.value },
+                                            } : null)} 
+                                            placeholder="000" required 
+                                        />
+                                    </div>
+                                </div>
+                                <div className="element-date-modal">
+                                    <div className="element-modal">
+                                        <label htmlFor="address.city">Cidade</label>
+                                        <input id="city-imput" type="text" name="address.city" value={editingLocation.address.city || ""} 
+                                            onChange={(event) => setEditingLocation((prev) => prev ? {
+                                                ...prev, address: {...prev.address, city: event.target.value },
+                                            } : null)} 
+                                            placeholder="Cidade" required 
+                                        />
+                                    </div>
+                                    <div className="element-modal">
+                                        <label htmlFor="address.state">Estado</label>
+                                        <input id="state-imput" type="text" name="address.state" value={editingLocation.address.state || ""}
+                                            onChange={(event) => setEditingLocation((prev) => prev ? {
+                                                ...prev, address: {...prev.address, state: event.target.value },
+                                            } : null)} 
+                                            placeholder="SP" required 
+                                        />
+                                    </div>
+                                </div>
+                                <div className="element-date-modal">
+                                    <div className="element-modal">
+                                        <label htmlFor="address.country">Pais</label>
+                                        <input id="country-imput" type="text" name="address.country" value={editingLocation.address.country || ""} 
+                                            onChange={(event) => setEditingLocation((prev) => prev ? {
+                                                ...prev, address: {...prev.address, country: event.target.value },
+                                            } : null)} 
+                                            placeholder="Pais" required 
+                                        />
+                                    </div>
+                                    <div className="element-modal">
+                                        <label htmlFor="address.postalcode">CEP</label>
+                                        <input id="postalcode-imput" type="text" name="address.postalcode" value={editingLocation.address.postalcode || ""} 
+                                            onChange={(event) => setEditingLocation((prev) => prev ? {
+                                                ...prev, address: {...prev.address, postalcode: event.target.value },
+                                            } : null)} 
+                                            placeholder="00000-000" required 
+                                        />
+                                    </div>
+                                </div>
+                
+                                <div className="element-submit-modal">
+                                    <input type="button" value="Salvar" onClick={handleSave} />
+                                </div>
+                            </form>
+                        ) : locations && locations.length > 0 ? (
                             locations.map(locate => (
                                 <div className="content-card" key={locate.id}>
                                     <h4 className="title-card">{locate.name}</h4>
                                     <h6 className="coodinates">{locate.position.join(", ")}</h6>
                                     <div className="card-actions">
-                                        <FontAwesomeIcon icon={faEdit} className="icon edit-icon" title="Edit" />
+                                        <FontAwesomeIcon icon={faEdit} className="icon edit-icon" title="Edit" onClick={() => handleEdit(locate)} />
                                         <FontAwesomeIcon icon={faTrash} className="icon delete-icon" title="Delete" onClick={() => handleDelete(locate.id)} />
                                     </div>
                                 </div>
