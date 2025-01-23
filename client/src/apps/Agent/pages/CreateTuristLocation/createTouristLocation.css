@@ -7,12 +7,11 @@
 .form-modal {
     display: flex;
     flex-direction: column;
-    background-color: #fff;    
+    background-color: #fff;
     color: #000;
     padding: 3rem 3rem 1.3rem;
     width: 30%;
     border-radius: .3rem;
-
     -webkit-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.75);
     box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.75);
@@ -33,24 +32,34 @@
     padding: .5rem 0 1rem;
 }
 
-.element-modal input, .element-modal textarea {
+.element-modal input,
+.element-modal select,
+.element-modal textarea {
     width: 100%;
-    padding:.8rem 0 .8rem .5rem;
-    border-radius:.2rem;
+    padding: .8rem 0 .8rem .5rem;
+    border-radius: .2rem;
     border: 1px solid #ccc;
-    margin-bottom:.5rem; 
-    box-sizing: border-box;   
+    margin-bottom: .5rem;
+    box-sizing: border-box;
+    font-size: 1rem;
 }
 
-.element-date-modal {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
+.element-modal select {
+    cursor: pointer;
 }
 
-.element-date-modal input {
-    width: 99%;
+.element-modal input:focus,
+.element-modal select:focus,
+.element-modal textarea:focus {
+    border-color: #292929;
+    outline: none;
+    box-shadow: 0 0 5px rgba(41, 41, 41, 0.5);
+}
+
+.element-modal label {
+    margin: 0 0 .2rem .2rem;
+    font-weight: bold;
+    color: #333;
 }
 
 .element-submit-modal {
@@ -63,13 +72,13 @@
 
 .element-submit-modal input {
     margin-top: 1.5rem;
-    padding:.9rem 1.5rem;
-    border-radius:1rem;
+    padding: .9rem 1.5rem;
+    border-radius: 1rem;
     background-color: #292929;
     color: #fff;
     font-size: 15px;
     border: 0;
-    margin-bottom:.5rem;
+    margin-bottom: .5rem;
     width: 100%;
     box-sizing: border-box;
 }
@@ -79,11 +88,38 @@
 }
 
 .element-submit-modal input:active {
-    transform: scale(0.95); 
-    background-color: #1c1c1c; 
+    transform: scale(0.95);
+    background-color: #1c1c1c;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.element-modal label {
-    margin: 0 0 .2rem .2rem;
+/* Estilização para os campos de endereço */
+.address-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+}
+
+.address-fields .element-modal {
+    padding: 0;
+}
+
+.address-fields .element-modal input,
+.address-fields .element-modal select {
+    width: 100%;
+    padding: .8rem 0 .8rem .5rem;
+    border-radius: .2rem;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .form-modal {
+        width: 90%;
+    }
+
+    .address-fields {
+        grid-template-columns: 1fr;
+    }
 }

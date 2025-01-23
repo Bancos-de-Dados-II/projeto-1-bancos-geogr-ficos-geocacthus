@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons"
-import "./profile.css"
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import "./profile.css";
 
-import touristServices, { ITouristLocationBase } from "../../../../service/touristLocation"
-import Header from "../../../Turist/components/Header/Header"
+import touristServices, { IApiResponse, ITouristUpdate } from "../../../../service/touristLocation";
+import Header from "../../../Turist/components/Header/Header";
 
 function Profile() {
-    const [locations, setLocations] = useState<ITouristLocationBase[]>([]);
+    const [locations, setLocations] = useState<IApiResponse[]>([]);
+    const [editingLocation, setEditingLocation] = useState<IApiResponse | null>(null);
     const my_token = localStorage.getItem("authToken");
 
     const fetchLocations = async () => {
@@ -21,18 +22,60 @@ function Profile() {
         }
     };
 
+    const handleEdit = (location: IApiResponse) => {
+        setEditingLocation(location);
+    };
+
+    const handleSave = async () => {
+        if (!my_token) {
+            console.error("Token de autenticação não encontrado");
+            return;
+        }
+
+        if (editingLocation) {
+            // Criar objeto separado para atualização
+            const updatedLocation: ITouristUpdate = {
+                name: editingLocation.name,
+                description: editingLocation.description,
+                category: editingLocation.category,
+                phone: editingLocation.phone,
+                address: {
+                    street: "", // Adicione o valor apropriado
+                    number: "", // Adicione o valor apropriado
+                    city: "", // Adicione o valor apropriado
+                    state: "", // Adicione o valor apropriado
+                    country: "", // Adicione o valor apropriado
+                    postalcode: "" // Adicione o valor apropriado
+                }
+            };
+
+            try {
+                await touristServices.updateTouristLocation(editingLocation.id, updatedLocation, my_token);
+                setLocations(prev =>
+                    prev.map(location => (location.id === editingLocation.id ? { ...location, ...updatedLocation } : location))
+                );
+                setEditingLocation(null);
+            } catch (error) {
+                console.error("Erro ao salvar local turístico:", error);
+            }
+        }
+    };
+
     const handleDelete = async (id: string) => {
         const confirmDelete = window.confirm("Deseja realmente excluir este local turístico?");
         if (confirmDelete) {
             try {
-                await touristServices.deleteTouristLocation(id);
-                setLocations(locations.filter((location) => location.id !== id));
+                await touristServices.deleteTouristLocation(id, my_token);
+                setLocations(locations.filter(location => location.id !== id));
             } catch (error) {
                 console.error("Erro ao excluir local turístico:", error);
             }
         }
     };
 
+    const handleCloseModal = () => {
+        setEditingLocation(null);
+    };
 
     useEffect(() => {
         fetchLocations();
@@ -48,7 +91,7 @@ function Profile() {
                 <div className="container-locations">
                     {locations.length > 0 ? (
                         <div className="section-locations">
-                            {locations.map((location) => (
+                            {locations.map(location => (
                                 <div className="content-card" key={location.id}>
                                     <h4 className="title-card">{location.name}</h4>
                                     <h6 className="coordinates">
@@ -60,6 +103,7 @@ function Profile() {
                                             icon={faEdit}
                                             className="icon edit-icon"
                                             title="Edit"
+                                            onClick={() => handleEdit(location)}
                                         />
                                         <FontAwesomeIcon
                                             icon={faTrash}
@@ -76,8 +120,59 @@ function Profile() {
                     )}
                 </div>
             </div>
+
+            {editingLocation && (
+                <div className="modal-overlay" onClick={handleCloseModal}>
+                    <form
+                        className="form-modal"
+                        onSubmit={event => event.preventDefault()}
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <div className="data-event">
+                            <h2>Editar Local Turístico</h2>
+                        </div>
+
+                        <div className="element-modal">
+                            <label htmlFor="name">Nome</label>
+                            <input
+                                id="name-input"
+                                type="text"
+                                name="name"
+                                value={editingLocation.name || ""}
+                                onChange={event =>
+                                    setEditingLocation(prev =>
+                                        prev ? { ...prev, name: event.target.value } : null
+                                    )
+                                }
+                                placeholder="Nome"
+                                required
+                            />
+                        </div>
+                        <div className="element-modal">
+                            <label htmlFor="description">Descrição</label>
+                            <textarea
+                                id="description-input"
+                                name="description"
+                                value={editingLocation.description || ""}
+                                onChange={event =>
+                                    setEditingLocation(prev =>
+                                        prev ? { ...prev, description: event.target.value } : null
+                                    )
+                                }
+                                rows={5}
+                                placeholder="Descrição"
+                                required
+                            />
+                        </div>
+                        <div className="element-submit-modal">
+                            <input type="button" value="Salvar" onClick={handleSave} />
+                            <input type="button" value="Fechar" onClick={handleCloseModal} />
+                        </div>
+                    </form>
+                </div>
+            )}
         </div>
     );
-    }
+}
 
-export default Profile
+export default Profile;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LatLngTuple } from "leaflet";
 
-interface IApiResponse {
+export interface IApiResponse {
     id: string;
     name: string;
     description: string;
@@ -25,6 +25,21 @@ interface ITouristCreate {
     description: string;
     category: string;
     image: string;
+    phone: string;
+    address: {
+        street: string;
+        number: string;
+        city: string;
+        state: string;
+        country: string;
+        postalcode: string;
+    };
+}
+
+export interface ITouristUpdate {
+    name: string;
+    description: string;
+    category: string;
     phone: string;
     address: {
         street: string;
@@ -109,6 +124,38 @@ const createTouristLocation = async (touristPlace: ITouristCreate, my_token: str
     }
 }
 
+const updateTouristLocation = async (touristID: string, touristPlace: ITouristUpdate, my_token: string) => {
+    const endpoint = `http://localhost:3000/api/tourist-place/${touristID}`;
+
+    const body = {
+        name: touristPlace.name,                        //"Cristo Redentor"
+        description: touristPlace.description,          //"Monumento famoso no Rio de Janeiro"
+        category: touristPlace.category,                //"Monumento"
+        phone: touristPlace.phone,                      //"83996108613"
+        address: {
+            street: touristPlace.address.street,        // "Av. Paulista"
+            number: touristPlace.address.number,        //"1000"
+            city: touristPlace.address.city,            //"São Paulo"
+            state: touristPlace.address.state,          //"SP"
+            country: touristPlace.address.country,      //"Brasil"
+            postalcode: touristPlace.address.postalcode //"01310-000"
+        }
+    };
+    
+    try {
+        const response = await axios.put(endpoint, body, { 
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${my_token}`,
+            },
+        });
+
+        console.log("Novo local turístico editado com sucesso: ", response.data);
+    } catch (error) {
+        console.log("Erro ao editar local turístico: ", (error as Error).message);
+    }
+}
+
 const deleteTouristLocation = async (id: string) => {
     const endpoint = `http://localhost:3000/api/tourist-place/${id}`;
 
@@ -132,4 +179,4 @@ const fetchTouristLocationsByUser = async (token: string | null) => {
 };
 
 
-export default { fetchTouristLocations, fetchTouristLocationsByUser, createTouristLocation, deleteTouristLocation };
+export default { fetchTouristLocations, fetchTouristLocationsByUser, createTouristLocation, deleteTouristLocation, updateTouristLocation };

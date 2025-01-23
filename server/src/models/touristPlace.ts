@@ -10,7 +10,6 @@ class TouristPlace extends Model {
     declare name: string;
     declare description: string;
     declare category: string;
-    declare image: string;
     declare phone: string;
 }
 
@@ -36,13 +35,6 @@ TouristPlace.init({
         allowNull: false, 
         validate: {
             notEmpty: true,
-        },
-    },
-    image: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            isUrl: true,
         },
     },
     phone: {

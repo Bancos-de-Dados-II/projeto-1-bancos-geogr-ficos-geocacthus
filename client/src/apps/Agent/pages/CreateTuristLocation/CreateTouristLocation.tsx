@@ -1,12 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./createTouristLocation.css"
+import locationService, { Country, State } from "../../../../service/locationService";
+import touristServices from "../../../../service/touristLocation";
+import "./createTouristLocation.css";
 
-import touristServices from "../../../../service/touristLocation"
+interface Address {
+    street: string;
+    number: string;
+    city: string;
+    state: string;
+    country: string;
+    postalcode: string;
+}
+
+interface FormData {
+    name: string;
+    description: string;
+    category: string;
+    image: string;
+    phone: string;
+    address: Address;
+}
 
 function CreateTouristLocation() {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState<FormData>({
         name: "",
         description: "",
         category: "",
@@ -23,110 +42,212 @@ function CreateTouristLocation() {
     });
 
     const [error, setError] = useState<string | null>(null);
+    const [countries, setCountries] = useState<Country[]>([]);
+    const [states, setStates] = useState<State[]>([]);
+    const [cities, setCities] = useState<string[]>([]);
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
-        if (name.includes("address.")) {
-            const addressKey = name.split(".")[1]; // Obtém a chave específica dentro de "address"
-            setFormData((prevState) => ({
-                ...prevState,
-                address: {
-                    ...prevState.address,
-                    [addressKey]: value, // Atualiza a chave específica de "address"
-                },
-            }));
+    useEffect(() => {
+        const fetchCountries = async () => {
+            try {
+                const countryList = await locationService.getCountries();
+                setCountries(countryList.sort((a, b) => a.name.localeCompare(b.name)));
+            } catch (error) {
+                setError("Erro ao carregar a lista de países.");
+            }
+        };
+        fetchCountries();
+    }, []);
+
+    const handleCountryChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const country = event.target.value;
+        setFormData((prevState) => ({
+            ...prevState,
+            address: { ...prevState.address, country },
+        }));
+
+        if (country === "Brazil") {
+            try {
+                const stateList = await locationService.getStates();
+                setStates(stateList.sort((a, b) => a.name.localeCompare(b.name)));
+            } catch (error) {
+                setError("Erro ao carregar os estados.");
+            }
         } else {
-            setFormData((prevState) => ({
-                ...prevState, 
-                [name]: value,  // Atualiza diretamente outros campos fora de "address"
-            }));
+            setStates([]);
+            setCities([]);
         }
-    }
+    };
+
+    const handleStateChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const state = event.target.value;
+        setFormData((prevState) => ({
+            ...prevState,
+            address: { ...prevState.address, state },
+        }));
+
+        try {
+            const cityList = await locationService.getCities(state);
+            setCities(cityList.sort((a, b) => a.localeCompare(b)));
+        } catch (error) {
+            setError("Erro ao carregar as cidades.");
+        }
+    };
 
     const handleSave = async () => {
-        const token = "eereeyryeieyeiyryreryereyrue"; //informar um token valido
-        if (!token) {
-            setError("Token inválido.");
+        if (!formData.name || !formData.description || !formData.category || !formData.phone) {
+            setError("Por favor, preencha todos os campos obrigatórios.");
             return;
         }
 
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+            setError("Token inválido ou expirado.");
+            return;
+        }
+
+        setLoading(true);
         try {
             setError(null);
             await touristServices.createTouristLocation(formData, token);
             alert("Local turístico cadastrado com sucesso!");
-
-            navigate("/agent/home-agent");
-        } catch (error) {
-            setError("Ocorreu um erro ao cadastrar o local turístico: ");
-            console.log(error);
+            navigate("/home");
+        } catch (error: any) {
+            const message = error.response?.data?.message || "Erro ao salvar o local turístico.";
+            setError(message);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
+
     return (
         <div className="container-form">
-            <form className="form-modal" onSubmit={event => event.preventDefault()}>
+            <form className="form-modal" onSubmit={(event) => event.preventDefault()}>
                 <div className="data-event">
-                    <h2>Cadastrar Local Turistico</h2>
+                    <h2>Cadastrar Local Turístico</h2>
                 </div>
 
                 {error && <p className="error-message">{error}</p>}
 
                 <div className="element-modal">
                     <label htmlFor="name">Nome</label>
-                    <input id="name-imput" type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="Nome" required />
-                </div>
-                <div className="element-modal">
-                    <label htmlFor="description">Descrição</label>
-                    <textarea id="description-imput" name="description" value={formData.description} onChange={handleInputChange} rows={5} placeholder="Descrição" required />
-                </div>
-                <div className="element-modal">
-                    <label htmlFor="category">Categoria</label>
-                    <input id="category-imput" type="text" name="category" value={formData.category} onChange={handleInputChange} placeholder="Categoria" required />
-                </div>
-                <div className="element-modal">
-                    <label htmlFor="image">Imagem</label>
-                    <input id="image-imput" type="text" name="image" value={formData.image} onChange={handleInputChange} placeholder="Url da imagem" required />
-                </div>
-                <div className="element-modal">
-                    <label htmlFor="phone">Telefone</label>
-                    <input id="phone-imput" type="text" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="(00) 00000-0000" required />
-                </div>
-                <div className="element-date-modal">
-                    <div className="element-modal">
-                        <label htmlFor="address.street">Rua</label>
-                        <input id="street-imput" type="text" name="address.street" value={formData.address.street} onChange={handleInputChange} placeholder="Rua/Av" required />
-                    </div>
-                    <div className="element-modal">
-                        <label htmlFor="address.number">Número</label>
-                        <input id="number-imput" type="text" name="address.number" value={formData.address.number} onChange={handleInputChange} placeholder="000" required />
-                    </div>
-                </div>
-                <div className="element-date-modal">
-                    <div className="element-modal">
-                        <label htmlFor="address.city">Cidade</label>
-                        <input id="city-imput" type="text" name="address.city" value={formData.address.city} onChange={handleInputChange} placeholder="Cidade" required />
-                    </div>
-                    <div className="element-modal">
-                        <label htmlFor="address.state">Estado</label>
-                        <input id="state-imput" type="text" name="address.state" value={formData.address.state} onChange={handleInputChange} placeholder="SP" required />
-                    </div>
-                </div>
-                <div className="element-date-modal">
-                    <div className="element-modal">
-                        <label htmlFor="address.country">Pais</label>
-                        <input id="country-imput" type="text" name="address.country" value={formData.address.country} onChange={handleInputChange} placeholder="Pais" required />
-                    </div>
-                    <div className="element-modal">
-                        <label htmlFor="address.postalcode">CEP</label>
-                        <input id="postalcode-imput" type="text" name="address.postalcode" value={formData.address.postalcode} onChange={handleInputChange} placeholder="00000-000" required />
-                    </div>
+                    <input
+                        id="name-input"
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Nome"
+                        required
+                    />
                 </div>
 
+                <div className="element-modal">
+                    <label htmlFor="description">Descrição</label>
+                    <textarea
+                        id="description-input"
+                        name="description"
+                        value={formData.description}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                        placeholder="Descrição"
+                        required
+                    />
+                </div>
+
+                <div className="element-modal">
+                    <label htmlFor="category">Categoria</label>
+                    <input
+                        id="category-input"
+                        type="text"
+                        name="category"
+                        value={formData.category}
+                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                        placeholder="Categoria"
+                        required
+                    />
+                </div>
+
+                <div className="element-modal">
+                    <label htmlFor="phone">Telefone</label>
+                    <input
+                        id="phone-input"
+                        type="text"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="Telefone"
+                        required
+                    />
+                </div>
+
+                <div className="element-modal">
+                    <label htmlFor="country">País</label>
+                    <select
+                        id="country-select"
+                        name="address.country"
+                        value={formData.address.country}
+                        onChange={handleCountryChange}
+                        required
+                    >
+                        <option value="">Selecione um país</option>
+                        {countries.map((country) => (
+                            <option key={country.code} value={country.name}>
+                                {country.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {states.length > 0 && (
+                    <div className="element-modal">
+                        <label htmlFor="state">Estado</label>
+                        <select
+                            id="state-select"
+                            name="address.state"
+                            value={formData.address.state}
+                            onChange={handleStateChange}
+                            required
+                        >
+                            <option value="">Selecione um estado</option>
+                            {states.map((state) => (
+                                <option key={state.code} value={state.code}>
+                                    {state.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+
+                {cities.length > 0 && (
+                    <div className="element-modal">
+                        <label htmlFor="city">Cidade</label>
+                        <select
+                            id="city-select"
+                            name="address.city"
+                            value={formData.address.city}
+                            onChange={(e) => setFormData({ ...formData, address: { ...formData.address, city: e.target.value } })}
+                            required
+                        >
+                            <option value="">Selecione uma cidade</option>
+                            {cities.map((city, index) => (
+                                <option key={index} value={city}>
+                                    {city}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+
                 <div className="element-submit-modal">
-                    <input type="button" value="Salvar" onClick={handleSave} />
+                    <input
+                        type="button"
+                        value={loading ? "Salvando..." : "Salvar"}
+                        disabled={loading}
+                        onClick={handleSave}
+                    />
                 </div>
             </form>
         </div>
-    )
+    );
 }
 
-export default CreateTouristLocation
+export default CreateTouristLocation;

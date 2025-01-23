@@ -121,3 +121,53 @@
     margin-top: 2rem;
     font-weight: 600;
 }
+
+
+/* Modal overlay (fundo escurecido) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* Aumentando o contraste */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Formulário do modal */
+  .form-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%; /* Tornando o modal mais responsivo */
+    max-width: 600px;
+    z-index: 10;
+  }
+  
+  /* Estilo para cada campo dentro do modal */
+  .element-modal {
+    margin-bottom: 10px;
+  }
+  
+  /* Ajuste para o botão de salvar e fechar */
+  .element-submit-modal {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .element-submit-modal input[type="button"] {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .element-submit-modal input[type="button"]:hover {
+    background-color: #45a049;
+  }
+  
