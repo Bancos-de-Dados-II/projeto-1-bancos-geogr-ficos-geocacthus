@@ -3,6 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
 import "./home.css"
 
 import touristServices, { ITouristLocationBase } from "../../../../service/touristLocation"
+import Header from "../../components/Header/Header";
 
 function Home() {
     
@@ -21,24 +22,11 @@ function Home() {
     }, []);
     return (
         <div className="home-container">
-            <div className="content-header">
-                {/* campos de titulo, pesquisa e filtors de regioẽs */}
-                <div id="title" className="box-camp">
-                    <h3>Home Turist</h3>
-                </div>
-                <div id="search" className="box-camp">
-                    <h3>Search</h3>
-                </div>
-                <div id="filter" className="box-camp">
-                    <a href="/agent/home-agent"> {/*redirecionar para a rota /home-agent*/}
-                        <h3>Login</h3>
-                    </a>
-                </div>  
-            </div>
+            <Header />
             <div className="content-main">
                 <div className="box-map">
                     <MapContainer
-                        center={[-7.135, -34.876]} // Posição inicial do mapa
+                        center={[-7.135, -34.876]}
                         zoom={13}
                         style={{ height: "815px", width: "100%" }}
                     >

@@ -25,7 +25,20 @@ class TouristPlaceService {
         }
         return location;
     }
+
+    async fetchTouristLocationsByUser(userId: string) {
+        const locations = await this.touristPlaceModel.findAll({
+            where: { userID: userId },
+        });
     
+        if (!locations.length) {
+            throw new HttpError("Nenhum local turístico encontrado para este usuário.", 404);
+        }
+    
+        return locations;
+    }
+    
+
     async createTouristLocation(data: TouristPlaceCreationData, user: User) {
         const { location, ...otherData } = data;
     

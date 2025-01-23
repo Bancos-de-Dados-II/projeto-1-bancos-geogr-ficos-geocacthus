@@ -4,7 +4,7 @@ import Home from "../pages/Home/Home";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
 import ProtectedRoute from "../components/ProtectedRoute";
-import CreateTouristLocation from "../pages/CreateTuristLocation/CreateTouristLocation";
+// import CreateTouristLocation from "../pages/";
 
 const TuristRoutes = () => {
     return (
@@ -21,7 +21,7 @@ const TuristRoutes = () => {
             <Route index element={<Navigate to="/signin" />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/create/tourist-place" element={<CreateTouristLocation />} />
+            {/* <Route path="/create/tourist-place" element={<CreateTouristLocation />} /> */}
         </Routes>
     );
 }

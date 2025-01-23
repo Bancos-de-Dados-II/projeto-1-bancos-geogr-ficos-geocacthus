@@ -47,6 +47,8 @@ export interface ITouristLocationBase {
 }
 
 const dataTouristLocations: ITouristLocationBase[] = [];
+const API_URL = "http://localhost:3000/api";
+
 
 const fetchTouristLocations = async () => {
     try {
@@ -107,15 +109,11 @@ const createTouristLocation = async (touristPlace: ITouristCreate, my_token: str
     }
 }
 
-const deleteTouristLocation = async (id: string, my_token: string) => {
+const deleteTouristLocation = async (id: string) => {
     const endpoint = `http://localhost:3000/api/tourist-place/${id}`;
 
     try {
-        const response = await axios.delete(endpoint, {
-            headers: {
-                Authorization: `Bearer ${my_token}`,
-            },
-        });
+        const response = await axios.delete(endpoint);
 
         console.log("Local turístico deletado com sucesso: ", response.data);
     } catch (error) {
@@ -123,5 +121,15 @@ const deleteTouristLocation = async (id: string, my_token: string) => {
     }
 }
 
+const fetchTouristLocationsByUser = async (token: string | null) => {
+    if (!token) throw new Error("Token não fornecido.");
+    const response = await axios.get(`${API_URL}/users/tourist-places/my-places`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+};
 
-export default { fetchTouristLocations, createTouristLocation, deleteTouristLocation };
+
+export default { fetchTouristLocations, fetchTouristLocationsByUser, createTouristLocation, deleteTouristLocation };
