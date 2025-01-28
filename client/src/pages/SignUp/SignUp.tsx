@@ -45,8 +45,8 @@ function SignUp() {
 
       alert("User registered successfully!");
       setFormData({ name: "", email: "", password: "" });
-    } catch (error: any) {
-      setErrorMessage(error.message);
+    } catch (error) {
+      setErrorMessage((error as Error).message);
     }
   };
 
