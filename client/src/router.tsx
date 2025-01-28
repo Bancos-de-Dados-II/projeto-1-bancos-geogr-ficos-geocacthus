@@ -5,7 +5,7 @@ import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-import Home from "./pages/Home/Home";
+import HomeAgent from "./pages/Home/Home";
 import CreateTouristLocation from "./pages/CreateTuristLocation/CreateTouristLocation";
 import Profile  from "./pages/Profile/Profile";
 
@@ -15,7 +15,7 @@ const AppRoutes = () => {
             <Route index element={<Navigate to="/signin" />} />
 
             <Route
-                path="/home"
+                path="/home" 
                 element={
                     <ProtectedRoute>
                         <Home />
@@ -25,9 +25,8 @@ const AppRoutes = () => {
 
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route index element={<Navigate to={"/home-agent"} />} />
 
-            <Route path="/home-agent" element={<Home />} />
+            <Route path="/home-agent" element={<HomeAgent />} />
             <Route path="/create/tourist-place" element={<CreateTouristLocation />} />
             <Route path="/profile" element={<Profile />} />
         </Routes>

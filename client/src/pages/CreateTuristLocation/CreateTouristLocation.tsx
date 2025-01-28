@@ -52,7 +52,7 @@ function CreateTouristLocation() {
                 const countryList = await locationService.getCountries();
                 setCountries(countryList.sort((a, b) => a.name.localeCompare(b.name)));
             } catch (error) {
-                setError("Erro ao carregar a lista de países.");
+                setError("Erro ao carregar a lista de países." + (error as Error).message);
             }
         };
         fetchCountries();
@@ -70,7 +70,7 @@ function CreateTouristLocation() {
                 const stateList = await locationService.getStates();
                 setStates(stateList.sort((a, b) => a.name.localeCompare(b.name)));
             } catch (error) {
-                setError("Erro ao carregar os estados.");
+                setError("Erro ao carregar os estados." + (error as Error).message);
             }
         } else {
             setStates([]);
@@ -89,7 +89,7 @@ function CreateTouristLocation() {
             const cityList = await locationService.getCities(state);
             setCities(cityList.sort((a, b) => a.localeCompare(b)));
         } catch (error) {
-            setError("Erro ao carregar as cidades.");
+            setError("Erro ao carregar as cidades." + (error as Error).message);
         }
     };
 
@@ -111,8 +111,8 @@ function CreateTouristLocation() {
             await touristServices.createTouristLocation(formData, token);
             alert("Local turístico cadastrado com sucesso!");
             navigate("/home");
-        } catch (error: any) {
-            const message = error.response?.data?.message || "Erro ao salvar o local turístico.";
+        } catch (error) {
+            const message = (error as Error).message || "Erro ao salvar o local turístico.";
             setError(message);
         } finally {
             setLoading(false);
