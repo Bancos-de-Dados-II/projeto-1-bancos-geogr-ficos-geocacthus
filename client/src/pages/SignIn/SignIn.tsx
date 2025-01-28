@@ -41,8 +41,8 @@ function SignIn() {
             localStorage.setItem("authToken", data.token);
 
             navigate("/home");
-        } catch (error: any) {
-            setErrorMessage(error.message);
+        } catch (error) {
+            setErrorMessage((error as Error).message);
         }
     };
 

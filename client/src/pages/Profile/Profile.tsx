@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./profile.css";
 
-import touristServices, { IApiResponse, ITouristUpdate } from "../../../../service/touristLocation";
-import Header from "../../../Turist/components/Header/Header";
+import touristServices, { IApiResponse, ITouristUpdate } from "../../service/touristLocation";
+import Header from "../../apps/Turist/components/Header/Header";
 
 function Profile() {
     const [locations, setLocations] = useState<IApiResponse[]>([]);

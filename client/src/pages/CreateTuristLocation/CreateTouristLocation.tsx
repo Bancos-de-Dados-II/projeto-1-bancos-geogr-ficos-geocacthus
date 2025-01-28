@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import locationService, { Country, State } from "../../../../service/locationService";
-import touristServices from "../../../../service/touristLocation";
+import locationService, { Country, State } from "../../service/locationService";
+import touristServices from "../../service/touristLocation";
 import "./createTouristLocation.css";
 
 interface Address {
