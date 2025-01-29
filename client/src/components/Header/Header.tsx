@@ -32,10 +32,10 @@ function Header() {
                     {isLoggedIn ? (
                         <>
                             <li>
-                                <Link to="/agent/create/tourist-place">Create Tourist Location</Link>
+                                <Link to="/create/tourist-place">Create Tourist Location</Link>
                             </li>
                             <li>
-                                <Link to="/agent/profile">Profile</Link>
+                                <Link to="/profile">Profile</Link>
                             </li>
                             <li onClick={handleLogout} className="logout-link">
                                 Logout
