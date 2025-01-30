@@ -1,13 +1,13 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 
-import Home from "./pages/HomeTurist/Home";
-import SignIn from "./pages/SignIn/SignIn";
-import SignUp from "./pages/SignUp/SignUp";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "../components/ProtectedRoute";
 
-import HomeAgent from "./pages/Home/Home";
-import CreateTouristLocation from "./pages/CreateTuristLocation/CreateTouristLocation";
-import Profile  from "./pages/Profile/Profile";
+import SignIn from "../screens/SignIn/SignIn";
+import SignUp from "../screens/SignUp/SignUp";
+import Home from "../screens/HomeTurist/Home";
+import HomeAgent from "../screens/Home/Home";
+import CreateTouristLocation from "../screens/CreateTuristLocation/CreateTouristLocation";
+import Profile  from "../screens/Profile/Profile";
 
 const AppRoutes = () => {
     return (
