@@ -35,6 +35,6 @@ router.get('/', (req: Request, res: Response) => {
 router.use(`${indceRouter.auth}`, authRouter);
 router.use(`${indceRouter.users}`, userRouter);
 router.use(`${indceRouter.tourist_places}`, touristPlaceRouter);
-router.use(`${indceRouter.reviews}`, reviewRouter)
+router.use(`${indceRouter.reviews}`, reviewRouter);
 
 export default router;
