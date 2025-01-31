@@ -1,18 +1,20 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 
-import ProtectedRoute from "../components/ProtectedRoute";
-
 import SignIn from "../screens/SignIn/SignIn";
 import SignUp from "../screens/SignUp/SignUp";
-import Home from "../screens/HomeTurist/Home";
-import HomeAgent from "../screens/Home/Home";
+import Home from "../screens/Home/Home";
 import CreateTouristLocation from "../screens/CreateTuristLocation/CreateTouristLocation";
 import Profile  from "../screens/Profile/Profile";
+
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const AppRoutes = () => {
     return (
         <Routes>
             <Route index element={<Navigate to="/signin" />} />
+
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
 
             <Route
                 path="/home" 
@@ -22,13 +24,22 @@ const AppRoutes = () => {
                     </ProtectedRoute>
                 }
             />
-
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-
-            <Route path="/home-agent" element={<HomeAgent />} />
-            <Route path="/create/tourist-place" element={<CreateTouristLocation />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route 
+                path="/create/tourist-place" 
+                element={
+                    <ProtectedRoute>
+                        <CreateTouristLocation />
+                    </ProtectedRoute>
+                }
+            />
+            <Route 
+                path="/profile" 
+                element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                }
+            />
         </Routes>
     )
 }

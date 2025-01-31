@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./header.css";
 
 function Header() {
@@ -14,20 +14,24 @@ function Header() {
     const handleLogout = () => {
         localStorage.removeItem("authToken"); // Remove o token
         setIsLoggedIn(false); // Atualiza o estado
-        navigate("/"); // Redireciona para a página inicial
+        navigate("/home"); // Redireciona para a página inicial
     };
 
     return (
         <header className="main-header">
             <div className="header-logo">
-                <Link to="/">
-                    <h1>Tourist Map</h1>
+                <Link to="/home">
+                    {isLoggedIn ? ( 
+                        <h1>Agent Map</h1>
+                    ) : (
+                        <h1>Tourist Map</h1>
+                    )}
                 </Link>
             </div>
             <nav className="header-nav">
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <Link to="/home">Home</Link>
                     </li>
                     {isLoggedIn ? (
                         <>
