@@ -19,6 +19,9 @@ class GeocodingService {
         
         try {
             const response = await axios.get("https://nominatim.openstreetmap.org/search", {
+                headers: {
+                    "User-Agent": `GeoCacthus/1.0 (${process.env.EMAIL_AGENT})`,
+                },
                 params: {
                     street,
                     city,
