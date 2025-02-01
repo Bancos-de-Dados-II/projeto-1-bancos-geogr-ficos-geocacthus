@@ -1,13 +1,8 @@
-require('ts-node/register');
-const { resolve } = require('path');
-const { existsSync, mkdirSync } = require('fs');
-
-const migrationPath = resolve('migrations');
-
-if (!existsSync(migrationPath)) mkdirSync(migrationPath);
+const path = require('path');
 
 module.exports = {
-    config: resolve('src', 'config', 'database.ts'),
-    'models-path': resolve('src', 'models'),
-    'migrations-path': migrationPath,
-}
+  'config': path.resolve(__dirname, 'dist', 'config', 'database.js'),
+  'migrations-path': path.resolve(__dirname, 'migrations'),
+  'models-path': path.resolve(__dirname, 'dist', 'models'),
+  'seeders-path': path.resolve(__dirname, 'seeders')
+};

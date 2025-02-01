@@ -1,21 +1,28 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
+
+import router, { configIndeceServerPoint } from './routes/router';
+import errorMiddleware from './utils/middlewares/errorMiddleware';
 import sequelize from './config/sequelize';
 
 dotenv.config();
 
-const my_port = process.env.SERVER_PORT || 3000
-const  server = express();
+const PORT = process.env.SERVER_PORT || 3000;
+const server = express();
+
+export const indeceServerPoint = `/api`;
+configIndeceServerPoint(indeceServerPoint);
+
+server.use(cors())
 server.use(express.json());
-
-server.use('/', (req: Request, res: Response) => {
-    res.status(200).json({ message: "Server is runing!" });
-});
-
-server.listen(my_port, () => {
-    console.log(`Server is running in http://localhost:${my_port}\n`);
-})
+server.use(`${indeceServerPoint}`, router);
+server.use(errorMiddleware);
 
 sequelize.sync().then(() => {
     console.log("Database connected successfully");
+})
+
+server.listen(PORT, () => {
+    console.log(`Server is running in http://localhost:${PORT}${indeceServerPoint}\n`);
 })
