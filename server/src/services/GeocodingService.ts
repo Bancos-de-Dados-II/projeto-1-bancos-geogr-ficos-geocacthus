@@ -3,6 +3,7 @@ import HttpError from "../utils/error/httpError";
 
 interface Address {
     street: string;
+    number: string;
     city: string;
     state: string;
     country: string;
@@ -11,10 +12,16 @@ interface Address {
 
 class GeocodingService {
     async getCoordinates(address: Address): Promise<{ lat: number; lon: number }> {
-        const { street, city, state, country, postalcode } = address;
+        const street = address.number === "S/N" ? `S/N/${address.street}` : `${address.number}/${address.street}`;
+        const { city, state, country, postalcode } = address;
+
+        console.log(street);
         
         try {
             const response = await axios.get("https://nominatim.openstreetmap.org/search", {
+                headers: {
+                    "User-Agent": `GeoCacthus/1.0 (${process.env.EMAIL_AGENT})`,
+                },
                 params: {
                     street,
                     city,
