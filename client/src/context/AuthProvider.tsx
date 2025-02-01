@@ -3,10 +3,13 @@ import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const token = localStorage.getItem("authToken");
         if (token) setIsAuthenticated(true);
+        setIsLoading(false);
+
     }, []);
 
     const login = () => {
@@ -18,8 +21,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.removeItem("authToken");
     };
 
+    if (isLoading) return null; // Carregando...
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
