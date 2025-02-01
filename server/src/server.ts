@@ -19,10 +19,10 @@ server.use(express.json());
 server.use(`${indeceServerPoint}`, router);
 server.use(errorMiddleware);
 
-server.listen(PORT, () => {
-    console.log(`Server is running in http://localhost:${PORT}${indeceServerPoint}\n`);
-})
-
 sequelize.sync().then(() => {
     console.log("Database connected successfully");
+})
+
+server.listen(PORT, () => {
+    console.log(`Server is running in http://localhost:${PORT}${indeceServerPoint}\n`);
 })
