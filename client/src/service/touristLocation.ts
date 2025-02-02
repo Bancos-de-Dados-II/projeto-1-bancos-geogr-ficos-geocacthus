@@ -67,7 +67,7 @@ const API_URL = "http://localhost:3000/api";
 
 const fetchTouristLocations = async () => {
     try {
-        const response = await axios.get<IApiResponse[]>("http://localhost:3000/api/tourist-place/");
+        const response = await axios.get<IApiResponse[]>(`${API_URL}/tourist-place/`);
         const data = response.data;
         console.log(data);
 
@@ -92,7 +92,7 @@ const fetchTouristLocations = async () => {
 }
 
 const createTouristLocation = async (touristPlace: ITouristCreate, my_token: string) => {
-    const endpoint = "http://localhost:3000/api/tourist-place";
+    const endpoint = `${API_URL}/tourist-place`;
 
     const body = {
         name: touristPlace.name,                        //"Cristo Redentor"
@@ -125,7 +125,7 @@ const createTouristLocation = async (touristPlace: ITouristCreate, my_token: str
 }
 
 const updateTouristLocation = async (touristID: string, touristPlace: ITouristUpdate, my_token: string) => {
-    const endpoint = `http://localhost:3000/api/tourist-place/${touristID}`;
+    const endpoint = `${API_URL}/tourist-place/${touristID}`;
 
     const body = {
         name: touristPlace.name,                        //"Cristo Redentor"
@@ -157,7 +157,7 @@ const updateTouristLocation = async (touristID: string, touristPlace: ITouristUp
 }
 
 const deleteTouristLocation = async (id: string) => {
-    const endpoint = `http://localhost:3000/api/tourist-place/${id}`;
+    const endpoint = `${API_URL}/tourist-place/${id}`;
 
     try {
         const response = await axios.delete(endpoint);
