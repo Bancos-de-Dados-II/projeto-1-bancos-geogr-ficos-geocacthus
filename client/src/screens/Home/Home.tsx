@@ -1,25 +1,21 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
 import "./home.css"
 
 import touristServices, { ITouristLocationBase } from "../../service/touristLocation"
 import Header from "../../components/Header/Header";
+import { useFetchOnce } from "../../hooks/useFetchOnce";
 
 function Home() {
-    
     const [touristLocations, setTouristLocations] = useState<ITouristLocationBase[]>([]);
     const [selectedLocation, setSelectedLocation] = useState<ITouristLocationBase | null>(null);
 
-    useEffect(() => {
-        const fetchLocations = async () => {
-            const locations = await touristServices.fetchTouristLocations();
-            if (locations) {
-                setTouristLocations(locations);
-            }
-        };
+    useFetchOnce(async () => {
+        const locations = await touristServices.fetchTouristLocations();
 
-        fetchLocations();
-    }, []);
+        if (locations) setTouristLocations(locations);
+    })
+
     return (
         <div className="home-container">
             <Header />
