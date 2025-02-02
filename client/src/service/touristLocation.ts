@@ -69,7 +69,6 @@ const fetchTouristLocations = async () => {
     try {
         const response = await axios.get<IApiResponse[]>(`${API_URL}/tourist-place/`);
         const data = response.data;
-        console.log(data);
 
         dataTouristLocations.length = 0;
 
