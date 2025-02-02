@@ -12,7 +12,6 @@ function Home() {
 
     useFetchOnce(async () => {
         const locations = await touristServices.fetchTouristLocations();
-
         if (locations) setTouristLocations(locations);
     })
 

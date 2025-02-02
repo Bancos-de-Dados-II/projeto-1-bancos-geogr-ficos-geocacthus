@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./profile.css";
 
 import touristServices, { IApiResponse, ITouristUpdate } from "../../service/touristLocation";
 import Header from "../../components/Header/Header";
+import { useFetchOnce } from "../../hooks/useFetchOnce";
 
 function Profile() {
     const [locations, setLocations] = useState<IApiResponse[]>([]);
@@ -14,9 +15,7 @@ function Profile() {
     const fetchLocations = async () => {
         try {
             const response = await touristServices.fetchTouristLocationsByUser(my_token);
-            if (response) {
-                setLocations(response);
-            }
+            if (response) setLocations(response);
         } catch (error) {
             console.error("Erro ao buscar locais turísticos:", error);
         }
@@ -77,9 +76,7 @@ function Profile() {
         setEditingLocation(null);
     };
 
-    useEffect(() => {
-        fetchLocations();
-    }, []);
+    useFetchOnce(fetchLocations);
 
     return (
         <div className="container-profile">
