@@ -14,9 +14,8 @@ function Header() {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("authToken"); // Remove o token
-        setIsLoggedIn(false); // Atualiza o estado
         logout();
+        setIsLoggedIn(false); // Atualiza o estado
         navigate("/home"); // Redireciona para a página inicial
     };
 
