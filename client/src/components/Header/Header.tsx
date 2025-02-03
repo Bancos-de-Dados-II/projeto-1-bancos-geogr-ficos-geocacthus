@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 import "./header.css";
 
 function Header() {
+    const { logout } = useAuth();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
@@ -14,6 +16,7 @@ function Header() {
     const handleLogout = () => {
         localStorage.removeItem("authToken"); // Remove o token
         setIsLoggedIn(false); // Atualiza o estado
+        logout();
         navigate("/home"); // Redireciona para a página inicial
     };
 

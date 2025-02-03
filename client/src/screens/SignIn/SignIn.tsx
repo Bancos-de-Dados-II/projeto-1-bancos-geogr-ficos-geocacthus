@@ -1,6 +1,7 @@
 import "./signin.css";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 interface FormData {
     email: string;
@@ -8,6 +9,7 @@ interface FormData {
 }
 
 function SignIn() {
+    const { login } = useAuth();
     const [formData, setFormData] = useState<FormData>({
         email: "",
         password: ""
@@ -39,6 +41,8 @@ function SignIn() {
 
             const data = await response.json();
             localStorage.setItem("authToken", data.token);
+
+            login();
 
             navigate("/home");
         } catch (error) {

@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const token = localStorage.getItem("authToken");
         if (token) setIsAuthenticated(true);
         setIsLoading(false);
-
     }, []);
 
     const login = () => {
@@ -20,6 +19,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated(false);
         localStorage.removeItem("authToken");
     };
+
+    console.log(`Loading: ${isLoading}; Authenticated: ${isAuthenticated}`);
 
     if (isLoading) return null; // Carregando...
 
