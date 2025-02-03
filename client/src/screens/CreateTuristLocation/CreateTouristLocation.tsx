@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import locationService, { Country, State } from "../../service/locationService";
 import touristServices from "../../service/touristLocation";
 import "./createTouristLocation.css";
 import Header from "../../components/Header/Header";
+import { useFetchOnce } from "../../hooks/useFetchOnce";
 
 interface Address {
     street: string;
@@ -47,17 +48,16 @@ function CreateTouristLocation() {
     const [states, setStates] = useState<State[]>([]);
     const [cities, setCities] = useState<string[]>([]);
 
-    useEffect(() => {
-        const fetchCountries = async () => {
-            try {
-                const countryList = await locationService.getCountries();
-                setCountries(countryList.sort((a, b) => a.name.localeCompare(b.name)));
-            } catch (error) {
-                setError("Erro ao carregar a lista de países." + (error as Error).message);
-            }
-        };
-        fetchCountries();
-    }, []);
+    useFetchOnce(async() => {
+        try {
+            const countryList = await locationService.getCountries();
+            setCountries(countryList.sort((a, b) => a.name.localeCompare(b.name)));
+        } catch (error) {
+            setError("Erro ao carregar a lista de países." + (error as Error).message);
+        }
+    })
+    // useEffect(() => {
+    // }, []);
 
     const handleCountryChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
         const country = event.target.value;

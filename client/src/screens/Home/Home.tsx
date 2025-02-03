@@ -11,8 +11,12 @@ function Home() {
     const [selectedLocation, setSelectedLocation] = useState<ITouristLocationBase | null>(null);
 
     useFetchOnce(async () => {
-        const locations = await touristServices.fetchTouristLocations();
-        if (locations) setTouristLocations(locations);
+        try {
+            const locations = await touristServices.fetchTouristLocations();
+            if (locations) setTouristLocations(locations);
+        } catch (error) {
+            console.log("Erro ao buscar locais turisticos" + (error as Error).message);
+        }
     })
 
     return (
