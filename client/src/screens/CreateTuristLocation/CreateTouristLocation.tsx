@@ -55,9 +55,7 @@ function CreateTouristLocation() {
         } catch (error) {
             setError("Erro ao carregar a lista de países." + (error as Error).message);
         }
-    })
-    // useEffect(() => {
-    // }, []);
+    });
 
     const handleCountryChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
         const country = event.target.value;
@@ -95,7 +93,16 @@ function CreateTouristLocation() {
     };
 
     const handleSave = async () => {
-        if (!formData.name || !formData.description || !formData.category || !formData.phone) {
+        const stateAddress = (
+            formData.address.street 
+            && formData.address.number 
+            && formData.address.city 
+            && formData.address.state
+            && formData.address.country 
+            && formData.address.postalcode 
+        ) ? true : false;
+
+        if (!formData.name || !formData.description || !formData.category || !formData.phone || !stateAddress) {
             setError("Por favor, preencha todos os campos obrigatórios.");
             return;
         }
@@ -138,7 +145,7 @@ function CreateTouristLocation() {
                             type="text"
                             name="name"
                             value={formData.name}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            onChange={(event) => setFormData({ ...formData, name: event.target.value })}
                             placeholder="Nome"
                             required
                         />
@@ -150,7 +157,7 @@ function CreateTouristLocation() {
                             id="description-input"
                             name="description"
                             value={formData.description}
-                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            onChange={(event) => setFormData({ ...formData, description: event.target.value })}
                             placeholder="Descrição"
                             required
                         />
@@ -163,7 +170,7 @@ function CreateTouristLocation() {
                             type="text"
                             name="category"
                             value={formData.category}
-                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                            onChange={(event) => setFormData({ ...formData, category: event.target.value })}
                             placeholder="Categoria"
                             required
                         />
@@ -176,7 +183,7 @@ function CreateTouristLocation() {
                             type="text"
                             name="phone"
                             value={formData.phone}
-                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            onChange={(event) => setFormData({ ...formData, phone: event.target.value })}
                             placeholder="Telefone"
                             required
                         />
@@ -227,7 +234,10 @@ function CreateTouristLocation() {
                                 id="city-select"
                                 name="address.city"
                                 value={formData.address.city}
-                                onChange={(e) => setFormData({ ...formData, address: { ...formData.address, city: e.target.value } })}
+                                onChange={(event) => setFormData({ 
+                                    ...formData, 
+                                    address: { ...formData.address, city: event.target.value } 
+                                })}
                                 required
                             >
                                 <option value="">Selecione uma cidade</option>
@@ -239,6 +249,54 @@ function CreateTouristLocation() {
                             </select>
                         </div>
                     )}
+
+                    <div className="element-modal">
+                        <label htmlFor="cep">CEP</label>
+                        <input
+                            id="cep-input"
+                            type="text"
+                            name="cep"
+                            value={formData.address.postalcode}
+                            onChange={(event) => setFormData({
+                                ...formData,
+                                address: { ...formData.address, postalcode: event.target.value }
+                            })}
+                            placeholder="00000-000"
+                            required
+                        />
+                    </div>
+
+                    <div className="element-modal">
+                        <label htmlFor="street">Endereço</label>
+                        <input
+                            id="street-input"
+                            type="text"
+                            name="street"
+                            value={formData.address.street}
+                            onChange={(event) => setFormData({ 
+                                ...formData,
+                                address: { ...formData.address, street: event.target.value }
+                            })}
+                            placeholder="Endereço"
+                            required
+                        />
+                    </div>
+
+                    <div className="element-modal">
+                        <label htmlFor="number">Número</label>
+                        <input
+                            id="number-input"
+                            type="text"
+                            name="phone"
+                            value={formData.address.number}
+                            onChange={(event) => setFormData({ 
+                                ...formData,
+                                address: { ...formData.address, number: event.target.value }
+                            })}
+                            placeholder="S/N"
+                            required
+                        />
+                    </div>
 
                     <div className="element-submit-modal">
                         <input

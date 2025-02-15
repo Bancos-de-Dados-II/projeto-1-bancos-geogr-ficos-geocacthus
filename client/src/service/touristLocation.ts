@@ -86,7 +86,7 @@ const fetchTouristLocations = async () => {
         return dataTouristLocations;
     } catch (error) {
         console.log("Erro na busca de dados do endpoint: ", (error as Error).message);
-        return null
+        return null;
     }
 }
 
@@ -114,7 +114,7 @@ const createTouristLocation = async (touristPlace: ITouristCreate, my_token: str
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${my_token}`,
-            },
+            }
         });
 
         console.log("Novo local turístico cadastrado com sucesso: ", response.data);
